@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+html {
+  background-color: lightgrey;
+}
+
+.navbar {
+    position: relative;
+}
+
+.brand {
+    position: absolute;
+    left: 50%;
+    margin-left: -33px !important;  /* 50% of your logo width */
+    display: block;
+}
+
+.nav-icon {
+    width: 30px;
+}

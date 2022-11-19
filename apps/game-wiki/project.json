@@ -18,7 +18,10 @@
           "apps/game-wiki/src/favicon.ico",
           "apps/game-wiki/src/assets"
         ],
-        "styles": ["apps/game-wiki/src/styles.css"],
+        "styles": [
+          "apps/game-wiki/src/styles.css",
+          "node_modules/bootstrap/dist/css/bootstrap.min.css"
+        ],
         "scripts": []
       },
       "configurations": {
