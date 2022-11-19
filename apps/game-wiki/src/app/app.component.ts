@@ -5,9 +5,8 @@ import { Message } from '@game-wiki/api-interfaces';
 @Component({
   selector: 'game-wiki-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  hello$ = this.http.get<Message>('/api/hello');
-  constructor(private http: HttpClient) {}
+  // hello$ = this.http.get<Message>('/api/hello');
+  // constructor(private http: HttpClient) {}
 }
