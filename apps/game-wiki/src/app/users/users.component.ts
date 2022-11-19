@@ -12,8 +12,13 @@ import { USERS } from '../mock-users'
 
 export class UsersComponent implements OnInit {
   users = USERS;
+  
+  selectedUser?: User;
+  onSelect(user: User): void {
+    this.selectedUser = user;
+  }
 
   constructor() {}
-
+  
   ngOnInit(): void {}
 }
