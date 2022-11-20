@@ -4,24 +4,25 @@
     <div><span>id: </span>{{ user.id }}</div>
 
     <div>
-      <label for="name">User name: </label>
+      <label for="name">Naam: </label>
       <input id="name" [(ngModel)]="user.name" placeholder="name" />
     </div>
     <div>
-      <label for="name">User email: </label>
-      <input id="name" [(ngModel)]="user.email" placeholder="email" />
+      <label for="email">Email: </label>
+      <input id="email" [(ngModel)]="user.email" placeholder="email" />
     </div>
     <div>
-      <label for="name">User password: </label>
-      <input id="name" [(ngModel)]="user.password" placeholder="password" />
+      <label for="password">Wachtwoord: </label>
+      <input id="password" [(ngModel)]="user.password" placeholder="password" />
     </div>
     <div>
-      <label for="name">User birthday: </label>
+      <label for="name">Geboortedatum: </label>
       <input
         type="date"
         id="name"
         [value]="user.birthday | date: 'yyyy-MM-dd'"
       />
     </div>
+    <button (click)="deleteUser(user)">Verwijderen</button>
   </div>
 </div>

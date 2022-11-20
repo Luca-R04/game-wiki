@@ -2,6 +2,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../user';
+import { UserService } from '../user.service';
+
 
 @Component({
   selector: 'game-wiki-user-detail',
@@ -11,7 +13,11 @@ import { User } from '../user';
 export class UserDetailComponent implements OnInit {
   @Input() user?: User;
 
-  constructor() {}
+  constructor(private userService: UserService) {}
+
+  deleteUser(user: User) {
+    this.userService.deleteUser(user);
+  } 
 
   ngOnInit(): void {}
 }
