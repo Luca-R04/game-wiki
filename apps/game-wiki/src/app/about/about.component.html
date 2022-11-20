@@ -1,125 +1,164 @@
 <div class="row">
-    <div class="col-sm-6 col-md-8 col-lg-9">
-        <h3 id="aboutTitle">Over deze applicatie</h3>
-        <p>
-            Deze applicatie is gemaakt in het kader van het vak 'Clientside web
-            frameworks' van Avans Hogeschool Breda.
-        </p>
-        <h1>Naam van jouw project</h1>
-        <p>
-            Hier beschrijft je wat je project inhoudt. Beschrijf ook de
-            entiteiten/domeinobjecten die je gebruikt, en benoem per entiteit de
-            attributen met hun datatype.
-        </p>
+  <div class="col-sm-6 col-md-8 col-lg-9">
+    <h3 id="aboutTitle">Over deze applicatie</h3>
+    <p>
+      Deze applicatie is gemaakt in het kader van het vak 'Clientside web
+      frameworks' van Avans Hogeschool Breda.
+    </p>
+    <h1>WikiGames</h1>
+    <p>
+      WikiGames is een Single Page Application (SPA) waar informatie over
+      iedereens favoriete games gedeeld wordt, iedereen kan zijn game naar keuze
+      toevoegen om te laten lezen door anderen.
+    </p>
+  </div>
+  <div class="col-sm-6 col-md-4 col-lg-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Luca Rinck</h5>
+        <p class="card-text">Studentnummer: 2186751</p>
+      </div>
     </div>
-    <div class="col-sm-6 col-md-4 col-lg-3">
-        <div class="card">
-            <div
-                class="d-flex justify-content-center align-items-center px-3 py-3"
-            >
-                <!-- Je mag een foto van jezelf toevoegen, maar dat is niet verplicht. -->
-                <img
-                    src="assets/images/person.png"
-                    class="card-img-top rounded-circle border profile-pic px-4 py-4"
-                    alt="..."
-                />
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Jouw naam hier</h5>
-                <p class="card-text">Studentnummer: 12345678</p>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>
 
 <h3>Entiteiten</h3>
 <p>
-    Hier geef je een toelichting op je entiteiten. Voeg ook een afbeelding van
-    je model toe zoals dat bij NoSql gevraagd wordt.
+    WikiGames bevat 4 entiteiten: User, Game, Actor en Review.<br>
+    Een user kan een alle 3 de andere entiteiten aanmaken, aanpassen en verwijderen als deze van de ingelogde user zijn.<br>
+    Ook kan een user vrienden maken, dit wordt gedaan door een lijst met vrienden te embedden in de user.<br><br>
+    
+    Een game wordt gemaakt door een user, een game bevat reviews en actors en kan nog verwijderd worden als het deze al heeft.<br>
+    Een game kan meerdere actors hebben en een actor kan ook in meerdere games zitten, een actor kan niet verwijderd worden als deze al in een game zit.<br>
+    Als een user is ingelogd kan deze een review achterlaten, deze review wordt vervolgens bij een game gezet en wordt er voor de game een gemiddelde rating berekend.<br>
+    Vervolgens kan een ingelogde user bij zijn profiel zien welke reviews deze user allemaal geschreven heeft.
 </p>
 
-<img src="assets/images/erd.png" class="px-5 py-5" alt="..." />
+<img src="assets/images/ERD.jpg" class="px-5 py-5" alt="ERD game-wiki" />
 
 <div class="row">
-    <div class="col-sm-12 col-md-4">
-        <p>Entiteit 1</p>
-        <ul>
-            <li>naam: string</li>
-            <li>id: number</li>
-            <li>birthdate: date</li>
-            <li>isSelected: boolean</li>
-        </ul>
-    </div>
-    <div class="col-sm-12 col-md-4">
-        <p>Entiteit 2</p>
-        <ul>
-            <li>naam: string</li>
-            <li>id: number</li>
-            <li>birthdate: date</li>
-            <li>isSelected: boolean</li>
-        </ul>
-    </div>
-    <div class="col-sm-12 col-md-4">
-        <p>Entiteit 3</p>
-        <ul>
-            <li>naam: string</li>
-            <li>id: number</li>
-            <li>birthdate: date</li>
-            <li>isSelected: boolean</li>
-        </ul>
-    </div>
+  <div class="col-sm-12 col-md-3">
+    <p>User</p>
+    <ul>
+      <li>id: number</li>
+      <li>naam: string</li>
+      <li>email: string</li>
+      <li>password: string</li>
+      <li>birthday: date</li>
+    </ul>
+  </div>
+  <div class="col-sm-12 col-md-3">
+    <p>Game</p>
+    <ul>
+      <li>id: number</li>
+      <li>naam: string</li>
+      <li>price: number</li>
+      <li>category: string</li>
+      <li>releaseDate: date</li>
+      <li>image: string</li>
+      <li>positivePercent: number</li>
+    </ul>
+  </div>
+  <div class="col-sm-12 col-md-3">
+    <p>Actor</p>
+    <ul>
+      <li>id: number</li>
+      <li>naam: string</li>
+      <li>birthDay: date</li>
+      <li>isMale: boolean</li>
+    </ul>
+  </div>
+  <div class="col-sm-12 col-md-3">
+    <p>Review</p>
+    <ul>
+      <li>id: number</li>
+      <li>reviewDate: date</li>
+      <li>isPositive: boolean</li>
+      <li>message: string</li>
+    </ul>
+  </div>
 </div>
 
 <div class="row">
-    <div class="col">
-        <h3>Userstories</h3>
-        <p>
-            Hier verwoord je in de vorm van userstories de functionaliteit van
-            jouw applicatie.
-        </p>
-
-        <table class="table table-bordered">
-            <thead>
-                <th>Nr</th>
-                <th class="col-6">Userstory</th>
-                <th>Evt toelichting</th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>
-                        Als gebruiker wil ik een overzicht van movies kunnen
-                        raadplegen, zodat ik kan zien welke movies op dit moment
-                        beschikbaar zijn.
-                    </td>
-                    <td>Overzicht is een grid.</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>
-                        Als ingelogde gebruiker wil ik zelf een movie kunnen
-                        toevoegen, zodat ik mijn movies in het systeem kan
-                        invoeren.
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>
-                        Als ingelogde gebruiker wil ik mijn eigen movies kunnen
-                        bewerken en verwijderen, zodat ik mijn informatie
-                        up-to-date kan houden.
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>
-                        <p>Voeg zelf meer userstories toe.</p>
-                    </td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+  <div class="col">
+    <h3>Userstories</h3>
+    <table class="table table-bordered">
+      <thead>
+        <th>Nr</th>
+        <th class="col-12">Userstory</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>
+            Als gebruiker wil ik kunnen inloggen, zodat ik reviews kan
+            schrijven, nieuwe games en vrienden kan toevoegen.
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>
+            Als ingelogde gebruiker wil ik games kunnen toevoegen, zodat ik mijn
+            games in het systeem kan zetten.
+          </td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>
+            Als ingelogde gebruiker wil ik mijn eigen games kunnen bewerken en
+            verwijderen, zodat ik mijn informatie up-to-date kan houden.
+          </td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>
+            Als ingelogde gebruiker wil ik reviews kunnen toevoegen, zodat ik
+            games kan beoordelen.
+          </td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>
+            Als ingelogde gebruiker wil ik mijn eigen reviews kunnen bewerken en
+            verwijderen, zodat ik mijn mening up-to-date kan houden.
+          </td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>
+            Als ingelogde gebruiker wil ik vrienden kunnen toevoegen, zodat ik
+            aanbevelingen krijg op basis van hun beoordelingen.
+          </td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>
+            Als ingelogde gebruiker wil ik mijn vrienden kunnen verwijderen,
+            zodat ik mijn vriendenlijst niet te groot maak.
+          </td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>
+            Als ingelogde gebruiker wil ik stemacteurs kunnen toevoegen, zodat
+            ik meer informatie kan geven over de gespeelde rollen.
+          </td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>
+            Als ingelogde gebruiker wil ik mijn stemacteurs kunnen bewerken en
+            verwijderen, zodat ik mijn informatie up-to-date kan houden.
+          </td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>
+            Als ingelogde gebruiker wil ik kunnen uitloggen, zodat anderen niet
+            bij mijn account kunnen.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
