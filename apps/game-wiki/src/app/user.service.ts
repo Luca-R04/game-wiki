@@ -19,5 +19,10 @@ export class UserService {
     delete USERS[user.id - 1];
   }
 
+  addUser(user: User): void {
+    user.id = USERS.length + 1;
+    USERS.push(user);
+  }
+
   constructor() { }
 }

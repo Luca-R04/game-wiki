@@ -8,6 +8,7 @@ import { UsersComponent } from './users/users.component';
 import { AboutComponent } from './about/about.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { AppRoutingModule } from './app-routing.module';
+import { UserAddComponent } from './user-add/user-add.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
     UsersComponent,
     AboutComponent,
     UserDetailComponent,
+    UserAddComponent,
   ],
   imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
   providers: [],

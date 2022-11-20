@@ -4,6 +4,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../user';
 import { UserService } from '../user.service';
 
+
 @Component({
   selector: 'game-wiki-user-detail',
   templateUrl: './user-detail.component.html',
