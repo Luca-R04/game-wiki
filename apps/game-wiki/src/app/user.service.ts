@@ -15,5 +15,9 @@ export class UserService {
     return users;
   }
 
+  deleteUser(user: User): void {
+    delete USERS[user.id - 1];
+  }
+
   constructor() { }
 }
