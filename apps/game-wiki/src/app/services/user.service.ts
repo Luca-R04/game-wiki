@@ -5,11 +5,9 @@ import { User } from '../models/user';
 import { USERS } from '../models/mock-users';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class UserService {
-
   getUsers(): Observable<User[]> {
     const users = of(USERS);
     return users;
@@ -24,5 +22,5 @@ export class UserService {
     USERS.push(user);
   }
 
-  constructor() { }
+  constructor() {}
 }

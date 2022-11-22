@@ -10,6 +10,7 @@ import { AboutComponent } from './components/about/about.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UserAddComponent } from './components/user-add/user-add.component';
+import { GamesComponent } from './components/games/games.component';
 
 @NgModule({
   declarations: [
@@ -18,8 +19,15 @@ import { UserAddComponent } from './components/user-add/user-add.component';
     AboutComponent,
     UserDetailComponent,
     UserAddComponent,
+    GamesComponent,
   ],
-  imports: [BrowserModule, HttpClientModule, FormsModule, ReactiveFormsModule, AppRoutingModule],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

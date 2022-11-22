@@ -1,0 +1,21 @@
+<div class="container d-flex align-items-center justify-content-center flex-wrap">
+  <div *ngFor="let game of games">
+    <div class="box">
+      <div class="body">
+        <div class="imgContainer">
+          <img src="{{ game.image }}" alt="" />
+        </div>
+        <div class="content d-flex flex-column align-items-center justify-content-center">
+          <div class="back-text">
+            <h2 class="fs-5">{{ game.name }}</h2>
+            <p class="fs-6">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo
+              sed cum neque, rem provident ex. Laboriosam perspiciatis modi
+              eveniet in?
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

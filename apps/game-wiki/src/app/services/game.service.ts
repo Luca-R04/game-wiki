@@ -5,11 +5,9 @@ import { Game } from '../models/game';
 import { GAMES } from '../models/mock-game';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class GameService {
-
   getGames(): Observable<Game[]> {
     const games = of(GAMES);
     return games;
@@ -24,5 +22,5 @@ export class GameService {
     GAMES.push(game);
   }
 
-  constructor() { }
+  constructor() {}
 }
