@@ -16,7 +16,8 @@
         "tsConfig": "apps/game-wiki/tsconfig.app.json",
         "assets": [
           "apps/game-wiki/src/favicon.ico",
-          "apps/game-wiki/src/assets"
+          "apps/game-wiki/src/assets",
+          "src/_redirects"
         ],
         "styles": [
           "apps/game-wiki/src/styles.css",
