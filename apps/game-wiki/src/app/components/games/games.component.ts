@@ -18,6 +18,7 @@ export class GamesComponent implements OnInit {
 
   onSelect(game: Game): void {
     this.selectedGame = game;
+    console.log(this.selectedGame);
   }
 
   getGames(): void {

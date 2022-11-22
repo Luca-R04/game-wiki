@@ -1,18 +1,28 @@
-<div class="container d-flex align-items-center justify-content-center flex-wrap">
-  <div *ngFor="let game of games">
+<img
+  src="../assets/images/wiki-banner.png"
+  class="img-fluid"
+  alt="wiki-banner"
+/>
+
+<div class="border-bottom border-2 rounded-bottom border-dark text-center bg-light">
+  <h2>Games</h2>
+</div>
+
+<div
+  class="container d-flex align-items-center justify-content-center flex-wrap"
+>
+  <div *ngFor="let game of games" routerLink="/game/{{ game.id }}">
     <div class="box">
       <div class="body">
         <div class="imgContainer">
           <img src="{{ game.image }}" alt="" />
         </div>
-        <div class="content d-flex flex-column align-items-center justify-content-center">
+        <div
+          class="content d-flex flex-column align-items-center justify-content-center"
+        >
           <div class="back-text">
             <h2 class="fs-5">{{ game.name }}</h2>
-            <p class="fs-6">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo
-              sed cum neque, rem provident ex. Laboriosam perspiciatis modi
-              eveniet in?
-            </p>
+            <p class="fs-6">{{ game.description }}</p>
           </div>
         </div>
       </div>

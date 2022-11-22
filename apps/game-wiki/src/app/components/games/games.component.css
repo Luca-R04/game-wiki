@@ -20,7 +20,7 @@ body {
 .container .box {
   position: relative;
   width: 275px;
-  height: 350px;
+  height: 400px;
   margin: 20px;
   transform-style: preserve-3d;
   perspective: 10000px;
