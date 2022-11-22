@@ -17,7 +17,7 @@
         "assets": [
           "apps/game-wiki/src/favicon.ico",
           "apps/game-wiki/src/assets",
-          "src/_redirects"
+          "apps/game-wiki/src/_redirects"
         ],
         "styles": [
           "apps/game-wiki/src/styles.css",
