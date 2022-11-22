@@ -5,5 +5,6 @@ export interface Game {
   category: string;
   releaseDate: Date;
   image: string;
+  description: string;
   positivePercent: number;
 }

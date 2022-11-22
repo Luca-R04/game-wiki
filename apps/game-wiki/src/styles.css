@@ -1,15 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 .navbar {
-    position: relative;
+  position: relative;
 }
 
 .brand {
-    position: absolute;
-    left: 50%;
-    margin-left: -33px !important;  /* 50% of your logo width */
-    display: block;
+  position: absolute;
+  left: 50%;
+  margin-left: -33px !important; /* 50% of your logo width */
+  display: block;
 }
 
 .nav-icon {
-    width: 30px;
+  width: 30px;
+}
+
+body {
+  padding-top: 60px;
+}
+@media (max-width: 979px) {
+  body {
+    padding-top: 0px;
+  }
 }
