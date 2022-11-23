@@ -13,6 +13,10 @@ body {
   justify-content: center;
 }
 
+.title-tab {
+  background-color: #8fcbff;
+}
+
 .container {
   transform-style: preserve-3d;
 }

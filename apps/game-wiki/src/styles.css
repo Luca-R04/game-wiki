@@ -1,6 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 .navbar {
   position: relative;
+  background-color: #8fcbff;
+}
+
+.navbar .btn {
+  background-color: #d84dc6;
+  transition: .2s ease-in-out 0s;
+}
+
+.navbar .btn:hover {
+  background-color: #d84dc6;
+  transform: scale(1.25);
 }
 
 .brand {

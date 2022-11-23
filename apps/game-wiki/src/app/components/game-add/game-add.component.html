@@ -1,0 +1,41 @@
+<div class="container px-5 my-5">
+    <form id="contactForm">
+        <div class="form-floating mb-3">
+            <input class="form-control" id="titel" type="text" placeholder="Titel"/>
+            <label for="titel">Titel</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="beschrijving" type="text" placeholder="Beschrijving" style="height: 10rem;" ></textarea>
+            <label for="beschrijving">Beschrijving</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="prijs" type="text" placeholder="Prijs"/>
+            <label for="prijs">Prijs</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="categorie" type="text" placeholder="Categorie"/>
+            <label for="categorie">Categorie</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="uitgaveDatum" type="text" placeholder="UitgaveDatum"/>
+            <label for="uitgaveDatum">UitgaveDatum</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="afbeeldingUrl" type="text" placeholder="Afbeelding URL"/>
+            <label for="afbeeldingUrl">Afbeelding URL</label>
+        </div>
+        <div class="d-none" id="submitSuccessMessage">
+            <div class="text-center mb-3">
+                <div class="fw-bolder">Form submission successful!</div>
+                <p>To activate this form, sign up at</p>
+                <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+            </div>
+        </div>
+        <div class="d-none" id="submitErrorMessage">
+            <div class="text-center text-danger mb-3">Error sending message!</div>
+        </div>
+        <div class="d-grid">
+            <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button>
+        </div>
+    </form>
+</div>

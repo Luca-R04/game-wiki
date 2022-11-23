@@ -12,6 +12,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { UserAddComponent } from './components/user-add/user-add.component';
 import { GamesComponent } from './components/games/games.component';
 import { GameDetailComponent } from './components/game-detail/game-detail.component';
+import { AddComponent } from './components/add/add.component';
+import { GameAddComponent } from './components/game-add/game-add.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { GameDetailComponent } from './components/game-detail/game-detail.compon
     UserAddComponent,
     GamesComponent,
     GameDetailComponent,
+    AddComponent,
+    GameAddComponent,
   ],
   imports: [
     BrowserModule,
