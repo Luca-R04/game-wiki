@@ -1,41 +1,31 @@
 <div class="container px-5 my-5">
-    <form id="contactForm">
+    <form id="contactForm" [formGroup]="createForm" (ngSubmit)="onSubmit()">
         <div class="form-floating mb-3">
-            <input class="form-control" id="titel" type="text" placeholder="Titel"/>
+            <input class="form-control" id="titel" type="text" placeholder="Titel" formControlName="name"/>
             <label for="titel">Titel</label>
         </div>
         <div class="form-floating mb-3">
-            <textarea class="form-control" id="beschrijving" type="text" placeholder="Beschrijving" style="height: 10rem;" ></textarea>
+            <textarea class="form-control" id="beschrijving" type="text" placeholder="Beschrijving" style="height: 10rem;" formControlName="description"></textarea>
             <label for="beschrijving">Beschrijving</label>
         </div>
         <div class="form-floating mb-3">
-            <input class="form-control" id="prijs" type="text" placeholder="Prijs"/>
+            <input class="form-control" id="prijs" type="text" placeholder="Prijs" formControlName="price"/>
             <label for="prijs">Prijs</label>
         </div>
         <div class="form-floating mb-3">
-            <input class="form-control" id="categorie" type="text" placeholder="Categorie"/>
+            <input class="form-control" id="categorie" type="text" placeholder="Categorie" formControlName="category"/>
             <label for="categorie">Categorie</label>
         </div>
         <div class="form-floating mb-3">
-            <input class="form-control" id="uitgaveDatum" type="text" placeholder="UitgaveDatum"/>
-            <label for="uitgaveDatum">UitgaveDatum</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input class="form-control" id="afbeeldingUrl" type="text" placeholder="Afbeelding URL"/>
+            <input class="form-control" id="afbeeldingUrl" type="text" placeholder="Afbeelding URL" formControlName="image"/>
             <label for="afbeeldingUrl">Afbeelding URL</label>
         </div>
-        <div class="d-none" id="submitSuccessMessage">
-            <div class="text-center mb-3">
-                <div class="fw-bolder">Form submission successful!</div>
-                <p>To activate this form, sign up at</p>
-                <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
-            </div>
-        </div>
-        <div class="d-none" id="submitErrorMessage">
-            <div class="text-center text-danger mb-3">Error sending message!</div>
-        </div>
+        <div class="pb-3">
+            <label for="name">Uitgavedatum:</label>
+            <input type="date" id="releaseDate" formControlName="releaseDate" formControlName="releaseDate"/>
+          </div>
         <div class="d-grid">
-            <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button>
+            <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Aanmaken</button>
         </div>
     </form>
 </div>
