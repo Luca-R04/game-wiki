@@ -4,7 +4,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Game } from '../../models/game';
 import { GameService } from '../../services/game.service';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'game-wiki-game-detail',
@@ -17,17 +17,18 @@ export class GameDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private gameService: GameService,
-    private location: Location
+    private router: Router
   ) {}
 
   getGame(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.gameService.getGame(id)
-      .subscribe(game => this.game = game);
+    this.gameService.getGame(id).subscribe((game) => (this.game = game));
   }
 
   deleteGame(game: Game) {
     this.gameService.deleteGame(game);
+    const navigationDetails: string[] = ['/'];
+    this.router.navigate(navigationDetails);
   }
 
   ngOnInit(): void {

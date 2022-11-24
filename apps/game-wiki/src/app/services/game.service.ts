@@ -18,6 +18,13 @@ export class GameService {
     GAMES.splice(GAMES.indexOf(game), 1);
   }
 
+  editGame(game: any, id: number): void {
+    const oldGame = GAMES.find(g => g.id === id)!;
+    const index = GAMES.indexOf(oldGame);
+    console.log(index);
+    GAMES[index] = game;
+  }
+
   addGame(game: any): void {
     game.id = GAMES[GAMES.length - 1].id + 1;
     GAMES.push(game);

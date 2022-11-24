@@ -1,16 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 .navbar {
   position: relative;
-  background-color: #8fcbff;
+  background-color: #1390bd;
 }
 
 .navbar .btn {
-  background-color: #d84dc6;
+  background-color: orangered;
   transition: .2s ease-in-out 0s;
 }
 
 .navbar .btn:hover {
-  background-color: #d84dc6;
+  background-color: orangered;
   transform: scale(1.25);
 }
 
@@ -27,6 +27,7 @@
 
 body {
   padding-top: 60px;
+  background-color: #202224 !important;
 }
 @media (max-width: 979px) {
   body {
