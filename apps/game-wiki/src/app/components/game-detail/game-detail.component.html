@@ -1,9 +1,9 @@
 <div *ngIf="game">
-  <section class="bg-light">
+  <section>
     <div class="container pb-5">
       <div class="row">
         <div class="col-lg-5 mt-5">
-          <div class="card mb-3">
+          <div class="card-img card mb-3">
             <img
               class="card-img img-fluid"
               src="{{ game.image }}"
@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="col-lg-7 mt-5">
-          <div class="card">
+          <div class="details-container card">
             <div class="card-body">
               <h1 class="h2">{{ game.name }}</h1>
               <p class="h4 pt-2">Adviesprijs: €{{ game.price }}</p>

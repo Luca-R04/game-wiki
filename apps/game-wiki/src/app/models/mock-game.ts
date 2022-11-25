@@ -8,7 +8,7 @@ export const GAMES: Game[] = [
     category: 'Adventure',
     releaseDate: new Date('2022-09-11'),
     image:
-      'https://upload.wikimedia.org/wikipedia/en/a/a7/God_of_War_4_cover.jpg',
+      'https://cdn.europosters.eu/image/750/julisteet/playstation-god-of-war-i116582.jpg',
     positivePercent: 90,
     description:
       "God of War is an action-adventure, hack and slash, mythology-based video game series, originally created by David Jaffe at Sony's Santa Monica Studio.",
