@@ -14,11 +14,11 @@ export class UserService {
   }
 
   deleteUser(user: User): void {
-    delete USERS[user.id - 1];
+    USERS.splice(USERS.indexOf(user), 1);
   }
 
   addUser(user: any): void {
-    user.id = USERS.length + 1;
+    user.id = USERS[USERS.length - 1].id + 1;
     USERS.push(user);
   }
 

@@ -9,3 +9,7 @@
 .data-tr:active {
   background-color: lightskyblue;
 }
+
+.table {
+  color: white;
+}

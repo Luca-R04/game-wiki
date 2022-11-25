@@ -1,27 +1,47 @@
 <div class="container px-5 my-5">
-    <form id="contactForm" [formGroup]="createForm" (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-            <label class="form-label" for="naam">Naam</label>
-            <input class="form-control" id="naam" type="text" placeholder="Naam" formControlName="name" required/>
-            <div class="invalid-feedback" data-sb-feedback="naam:required">Naam is verplicht.</div>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="email">Email</label>
-            <input class="form-control" id="email" type="email" placeholder="Email" data-sb-validations="email" formControlName="email" required/>
-            <div class="invalid-feedback" data-sb-feedback="email:required">Email is verplicht.</div>
-            <div class="invalid-feedback" data-sb-feedback="email:email">Email is niet geldig.</div>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="wachtwoord">Wachtwoord</label>
-            <input class="form-control" id="wachtwoord" type="text" placeholder="Wachtwoord" formControlName="password" required/>
-            <div class="invalid-feedback" data-sb-feedback="wachtwoord:required">Wachtwoord is verplicht.</div>
-        </div>
-        <div>
-            <label for="name">Geboortedatum: </label>
-            <input type="date" id="name" formControlName="birthday"/>
-          </div>
-        <div class="d-grid">
-            <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Aanmaken</button>
-        </div>
-    </form>
+  <form id="contactForm" [formGroup]="createForm" (ngSubmit)="onSubmit()">
+    <div class="form-floating mb-3">
+        <input
+        class="form-control"
+        id="naam"
+        type="text"
+        placeholder="Naam"
+        formControlName="name"
+        required
+        />
+        <label class="form-label" for="naam">Naam</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input
+        class="form-control"
+        id="email"
+        type="email"
+        placeholder="Email"
+        data-sb-validations="email"
+        formControlName="email"
+        required
+      />
+      <label class="form-label" for="email">Email</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input
+        class="form-control"
+        id="wachtwoord"
+        type="text"
+        placeholder="Wachtwoord"
+        formControlName="password"
+        required
+      />
+      <label class="form-label" for="wachtwoord">Wachtwoord</label>
+    </div>
+    <div class="pb-3">
+      <label for="name">Geboortedatum: </label>
+      <input type="date" id="name" formControlName="birthday" />
+    </div>
+    <div class="d-grid">
+      <button class="btn btn-primary btn-lg" id="submitButton" type="submit">
+        Aanmaken
+      </button>
+    </div>
+  </form>
 </div>

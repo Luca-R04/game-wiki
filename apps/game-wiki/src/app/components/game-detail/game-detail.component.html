@@ -1,4 +1,68 @@
 <div *ngIf="game">
-  <h2>{{ game.name }} Details</h2>
-  <div><span>id: </span>{{ game.id }}</div>
+  <section>
+    <div class="container pb-5">
+      <div class="row">
+        <div class="col-lg-5 mt-5">
+          <div class="card-img card mb-3">
+            <img
+              class="card-img img-fluid"
+              src="{{ game.image }}"
+              alt="Card image cap"
+              id="product-detail"
+            />
+          </div>
+        </div>
+        <div class="col-lg-7 mt-5">
+          <div class="details-container card">
+            <div class="card-body">
+              <h1 class="h2">{{ game.name }}</h1>
+              <p class="h4 pt-2">Adviesprijs: €{{ game.price }}</p>
+              <p class="pt-1">
+                Rating: {{ game.positivePercent }}% positief | 36 Reviews
+              </p>
+              <p class="pb-1">
+                Uitgavedatum: {{ game.releaseDate | date: 'dd/MM/yyyy' }}
+              </p>
+
+              <h6>Beschrijving:</h6>
+              <p>{{ game.description }}</p>
+
+              <h6>Categorie: {{ game.category }}</h6>
+
+              <div class="pt-2">
+                <h6>Voice actors:</h6>
+                <ul class="list-unstyled pb-3">
+                  <li>- VA 1</li>
+                  <li>- VA 2</li>
+                  <li>- VA 3</li>
+                </ul>
+              </div>
+            </div>
+            <div class="row pb-3">
+              <div class="col d-grid">
+                <button
+                  type="submit"
+                  class="btn btn-success btn-lg"
+                  name="submit"
+                  routerLink="/edit-game/{{game.id}}"
+                  >
+                  Bewerken
+                </button>
+              </div>
+              <div class="col d-grid">
+                <button
+                  type="submit"
+                  class="btn btn-danger btn-lg"
+                  name="submit"
+                  (click)="deleteGame(game)"
+                >
+                  Verwijderen
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>

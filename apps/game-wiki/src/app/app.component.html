@@ -1,63 +1,65 @@
-<div style="text-align: center">
-  <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+<body class="d-flex flex-column min-vh-100">
+  <nav class="navbar fixed-top navbar-expand navbar-light">
     <div class="container-fluid">
       <a class="brand" routerLink="/"
-        ><img src="../assets/images/wiki.png" style="width: 66px" title="Home"
+        ><img src="../assets/images/wiki.png" style="width: 100px" title="Home"
       /></a>
-      <div class="navbar-collapse">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" routerLink="/"
-              ><img
-                class="nav-icon"
-                src="../assets/images/home.png"
-                title="Home"
-            /></a>
+      <div class="navbar-collapse flex-grow-1 text-right" id="myNavbar">
+        <ul class="navbar-nav ms-auto flex-nowrap">
+          <li class="nav-item" title="Home">
+            <a class="nav-link active" routerLink="/">
+              <i class="nav-icon bi bi-house"></i>
+            </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link active" routerLink="/users"
-              ><img
-                class="nav-icon"
-                src="../assets/images/user.png"
-                title="Gebruiker"
-            /></a>
-          </li>
-          <li class="nav-item">
+          <li class="nav-item" title="Toevoegen">
             <a class="nav-link active" routerLink="/add"
-              ><img
-                class="nav-icon"
-                src="../assets/images/add.png"
-                title="Toevoegen"
-            /></a>
+              ><i class="nav-icon bi bi-plus-lg"></i
+            ></a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" title="Gebruiker">
+            <a class="nav-link active" routerLink="/users"
+              ><i class="nav-icon bi bi-person"></i
+            ></a>
+          </li>
+          <li class="nav-item" title="Info">
             <a class="nav-link active" routerLink="/about"
-              ><img
-                class="nav-icon"
-                src="../assets/images/info.png"
-                title="About"
-            /></a>
+              ><i class="nav-icon bi bi-info-circle"></i
+            ></a>
           </li>
         </ul>
-        <div class="searchbar">
-          <form class="d-flex input-group w-auto">
-            <input
-              type="search"
-              class="form-control"
-              placeholder="Zoek een game"
-              aria-label="Search"
-            />
-            <button
-              class="btn btn-outline-primary"
-              type="button"
-              data-mdb-ripple-color="dark"
-            >
-              Zoek
-            </button>
-          </form>
-        </div>
       </div>
     </div>
   </nav>
-</div>
-<router-outlet></router-outlet>
+
+  <router-outlet></router-outlet>
+
+  <footer
+    class="footer-class text-center text-white mt-auto"
+    style="background-color: rgba(0, 0, 0, 0.2)"
+  >
+    <div class="container pt-2">
+      <section class="mb-2">
+        <a class="btn btn-link btn-floating btn-lg m-1" title="Home" routerLink="/">
+          <i class="nav-icon bi bi-house"></i>
+        </a>
+
+        <a class="btn btn-link btn-floating btn-lg m-1" title="Toevoegen" routerLink="/add"
+          ><i class="nav-icon bi bi-plus-lg"></i
+        ></a>
+
+        <a class="btn btn-link btn-floating btn-lg m-1" title="Gebruiker" routerLink="/users"
+          ><i class="nav-icon bi bi-person"></i
+        ></a>
+
+        <a class="btn btn-link btn-floating btn-lg m-1" title="Info" routerLink="/about"
+          ><i class="nav-icon bi bi-info-circle"></i
+        ></a>
+      </section>
+    </div>
+
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+      © 2022 Copyright:
+      <a class="footer-text" routerLink="/">Wiki-Games</a>
+    </div>
+  </footer>
+</body>

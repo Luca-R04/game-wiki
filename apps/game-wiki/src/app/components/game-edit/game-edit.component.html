@@ -1,0 +1,70 @@
+<div class="container px-5 my-5" *ngIf="game">
+  <form id="contactForm" [formGroup]="editForm" (ngSubmit)="onSubmit()">
+    <div class="form-floating mb-3">
+      <input
+        class="form-control"
+        id="titel"
+        type="text"
+        placeholder="Titel"
+        formControlName="name"
+        [ngModel]="game.name"
+      />
+      <label for="titel">Titel</label>
+    </div>
+    <div class="form-floating mb-3">
+      <textarea
+        class="form-control"
+        id="beschrijving"
+        type="text"
+        placeholder="Beschrijving"
+        style="height: 10rem"
+        formControlName="description"
+        [ngModel]="game.description"
+      ></textarea>
+      <label for="beschrijving">Beschrijving</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input
+        class="form-control"
+        id="prijs"
+        type="text"
+        placeholder="Prijs"
+        formControlName="price"
+        [ngModel]="game.price"
+
+        />
+      <label for="prijs">Prijs</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input
+        class="form-control"
+        id="categorie"
+        type="text"
+        placeholder="Categorie"
+        formControlName="category"
+        [ngModel]="game.category"
+      />
+      <label for="categorie">Categorie</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input
+        class="form-control"
+        id="afbeeldingUrl"
+        type="text"
+        placeholder="Afbeelding URL"
+        formControlName="image"
+        [ngModel]="game.image"
+      />
+      <label for="afbeeldingUrl">Afbeelding URL</label>
+    </div>
+    <div class="pb-3">
+      <label for="name">Uitgavedatum:</label>
+      <input [ngModel]="game.releaseDate | date: 'yyyy-MM-dd'" type="date" id="releaseDate" formControlName="releaseDate" />
+    </div>
+    <div class="d-grid">
+      <button class="btn btn-primary btn-lg" id="submitButton" type="submit">
+        Aanpassen
+      </button>
+    </div>
+  </form>
+</div>
