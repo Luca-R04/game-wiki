@@ -40,7 +40,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: game-wiki
-          path: './dist/apps/triplo'
+          path: './dist/apps/game-wiki'
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.2.4
         with:
