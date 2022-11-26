@@ -21,7 +21,6 @@ export class GameService {
   editGame(game: any, id: number): void {
     const oldGame = GAMES.find(g => g.id === id)!;
     const index = GAMES.indexOf(oldGame);
-    console.log(index);
     GAMES[index] = game;
   }
 
