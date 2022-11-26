@@ -18,7 +18,6 @@ export class GamesComponent implements OnInit {
 
   onSelect(game: Game): void {
     this.selectedGame = game;
-    console.log(this.selectedGame);
   }
 
   getGames(): void {
@@ -27,6 +26,5 @@ export class GamesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGames();
-    console.log(this.games);
   }
 }
