@@ -21,7 +21,7 @@ jobs:
           name: game-wiki
           path: './dist/apps/game-wiki'
 
-  test:
+  run-test:
     runs-on: ubuntu-latest
     needs: run-npm-build
     steps:
