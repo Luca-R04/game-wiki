@@ -1,17 +1,25 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Injectable } from '@angular/core';
+import {HttpClient, HttpParams} from "@angular/common/http"
 import { Observable, of } from 'rxjs';
-import { Game } from '../models/game';
+import {map} from "rxjs/operators";;
+import { Game } from '../../../../../shared/game';
 import { GAMES } from '../models/mock-game';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
+  constructor(private http:HttpClient) {
+
+  }
+
   getGames(): Observable<Game[]> {
-    const games = of(GAMES);
-    return games;
+    return this.http.get<Game[]>('/api/games')
+    .pipe(
+      map(games => games.sort())
+    );
   }
 
   deleteGame(game: Game): void {
@@ -33,6 +41,4 @@ export class GameService {
     const game = GAMES.find(g => g.id === id)!;
     return of(game);
   }
-
-  constructor() {}
 }

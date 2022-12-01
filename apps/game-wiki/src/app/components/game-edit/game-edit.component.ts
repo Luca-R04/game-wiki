@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { GameService } from '../../services/game.service';
-import { Game } from '../../models/game';
+import { Game } from '../../../../../../shared/game';
 
 @Component({
   selector: 'game-wiki-game-edit',
