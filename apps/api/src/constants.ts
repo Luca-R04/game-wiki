@@ -1,0 +1,1 @@
+export const MONGO_CONNECTION = 'mongodb+srv://nestjs-admin:dxgEPworUUsP5rFu@game-wiki.1sfgx4f.mongodb.net/game-wikiDB?retryWrites=true&w=majority';

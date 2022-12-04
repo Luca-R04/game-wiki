@@ -2,6 +2,7 @@ import { Game } from '../../../../../shared/game';
 
 export const GAMES: Game[] = [
   {
+    _id: "",
     id: 1,
     name: 'God of war',
     price: 60,
@@ -14,6 +15,7 @@ export const GAMES: Game[] = [
       "God of War is an action-adventure, hack and slash, mythology-based video game series, originally created by David Jaffe at Sony's Santa Monica Studio.",
   },
   {
+    _id: "",
     id: 2,
     name: 'Call of duty MW2',
     price: 60,
@@ -25,7 +27,8 @@ export const GAMES: Game[] = [
     description:
       'Call of Duty: Modern Warfare II is a 2022 first-person shooter game developed by Infinity Ward and published by Activision. It is a sequel to the 2019 reboot, and serves as the nineteenth installment in the overall Call of Duty series. It was released on October 28, 2022, for PlayStation 4 and PlayStation 5, Windows, and Xbox One and Xbox Series X/S.',
   },
-  {
+  {    _id: "",
+
     id: 3,
     name: 'Horizon forbidden west',
     price: 60,
@@ -37,7 +40,8 @@ export const GAMES: Game[] = [
     description:
       'Horizon Forbidden West is an open-world action role-playing video game developed by Guerrilla Games and published by Sony Interactive Entertainment for the PlayStation 4 and PlayStation 5. The game was released on February 18, 2022.',
   },
-  {
+  {    _id: "",
+
     id: 4,
     name: 'Candy crush',
     price: 0,
@@ -49,7 +53,8 @@ export const GAMES: Game[] = [
     description:
       'Candy Crush Saga is a free-to-play tile-matching video game released by King on April 12, 2012, originally for Facebook; other versions for iOS, Android, Windows Phone, and Windows 10 followed. It is a variation of their browser game Candy Crush.',
   },
-  {
+  {    _id: "",
+
     id: 5,
     name: 'Goat simulator',
     price: 30,
@@ -61,7 +66,8 @@ export const GAMES: Game[] = [
     description:
       "That's right - we're doing this again. The baa has been raised, and Pilgor is joined by other goats too. You can invite up to three friends in local or online co-op, create carnage as a team, or compete in mini-games and then not be friends anymore. Get ready for another round of udder mayhem. Lick, headbutt, and ruin your way through a brand new open world in the biggest waste of your time since Goat Simulator!",
   },
-  {
+  {    _id: "",
+
     id: 6,
     name: 'Spider-man ps4',
     price: 60,
@@ -73,7 +79,8 @@ export const GAMES: Game[] = [
     description:
       "Marvel's Spider-Man is a 2018 action-adventure game developed by Insomniac Games and published by Sony Interactive Entertainment.",
   },
-  {
+  {    _id: "",
+
     id: 7,
     name: 'Elden ring',
     price: 60,
@@ -85,7 +92,8 @@ export const GAMES: Game[] = [
     description:
       "Danger and discovery lurk around every corner in FromSoftware's largest game to-date. Hidetaka Miyazaki, President and Game Director of FromSoftware Inc. Known for directing critically-acclaimed games in beloved franchises including Armored Core, Dark Souls, and Sekiro: Shadows Die Twice. George R.R. Martin is the #1 New York Times bestselling author of many novels.",
   },
-  {
+  {    _id: "",
+
     id: 8,
     name: 'Deathloop',
     price: 60,
@@ -97,7 +105,8 @@ export const GAMES: Game[] = [
     description:
       'Deathloop is a first-person shooter video game developed by Arkane Lyon and published by Bethesda Softworks.',
   },
-  {
+  {    _id: "",
+
     id: 9,
     name: 'A way out',
     price: 60,
@@ -109,7 +118,8 @@ export const GAMES: Game[] = [
     description:
       'A Way Out is an action-adventure video game developed by Hazelight Studios and published by Electronic Arts. It is the second video game to be directed by Josef Fares after Brothers: A Tale of Two Sons.',
   },
-  {
+  {    _id: "",
+
     id: 10,
     name: 'Cuphead',
     price: 60,

@@ -7,7 +7,9 @@
     "postinstall": "node ./decorate-angular-cli.js",
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "run-populate-db": "node ./dist/rest-api/populate-db.js",
+    "populate-db": "run-s clean build run-populate-db"
   },
   "private": true,
   "dependencies": {
@@ -21,13 +23,16 @@
     "@angular/router": "~14.2.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/mongoose": "^9.2.1",
     "@nestjs/platform-express": "^9.0.0",
     "@ng-bootstrap/ng-bootstrap": "^13.1.0",
     "@nrwl/angular": "15.1.0",
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.2",
     "bootstrap-icons": "^1.10.2",
+    "mongoose": "^6.7.5",
     "reflect-metadata": "^0.1.13",
+    "run-s": "^0.0.0",
     "rxjs": "^7.0.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
