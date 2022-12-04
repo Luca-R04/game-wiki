@@ -13,20 +13,24 @@ import { Router } from '@angular/router';
 })
 export class GameDetailComponent implements OnInit {
   game: Game | undefined;
+  gameId: string;
 
   constructor(
     private route: ActivatedRoute,
     private gameService: GameService,
     private router: Router
-  ) {}
-
-  getGame(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.gameService.getGame(id).subscribe((game) => (this.game = game));
+  ) {
+    this.gameId = String(this.route.snapshot.paramMap.get('id'));
   }
 
-  deleteGame(game: Game) {
-    this.gameService.deleteGame(game);
+  getGame(): void {
+    this.gameService
+      .getGame(this.gameId)
+      .subscribe((game) => (this.game = game));
+  }
+
+  deleteGame() {
+    this.gameService.deleteGame(this.gameId).subscribe();
     const navigationDetails: string[] = ['/'];
     this.router.navigate(navigationDetails);
   }

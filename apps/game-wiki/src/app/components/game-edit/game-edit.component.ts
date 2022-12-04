@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { GameService } from '../../services/game.service';
 import { Game } from '../../../../../../shared/game';
@@ -13,33 +13,44 @@ import { Game } from '../../../../../../shared/game';
 })
 export class GameEditComponent implements OnInit {
   game: Game | undefined;
+  form: FormGroup;
+  gameId: string;
 
   constructor(
     private gameService: GameService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute
   ) {
+    this.gameId = String(this.route.snapshot.paramMap.get('id'));
+
+    const editForm = {
+      _id: '',
+      id: '',
+      name: '',
+      description: '',
+      price: '',
+      category: '',
+      image: '',
+      releaseDate: '',
+    };
+
+    this.form = this.formBuilder.group(editForm);
   }
 
-  editForm = this.formBuilder.group({
-    id: Number(this.route.snapshot.paramMap.get('id')),
-    name: '',
-    description: '',
-    price: '',
-    category: '',
-    image: '',
-    releaseDate: '',
-  });
-
   getGame(): void {
-    const gameId = Number(this.route.snapshot.paramMap.get('id'));
-    this.gameService.getGame(gameId).subscribe((game) => (this.game = game));
+    this.gameService
+      .getGame(this.gameId)
+      .subscribe((game) => (this.game = game));
   }
 
   onSubmit(): void {
-    console.log(this.editForm.value);
-    const gameId = Number(this.route.snapshot.paramMap.get('id'));
-    this.gameService.editGame(this.editForm.value, gameId);
+    const changes: Partial<Game> = {
+      ...this.form.value,
+      _id: this.game?._id,
+      id: this.game?.id,
+    };
+    console.log(changes);
+    this.gameService.editGame(changes, this.gameId).subscribe();
   }
 
   ngOnInit(): void {

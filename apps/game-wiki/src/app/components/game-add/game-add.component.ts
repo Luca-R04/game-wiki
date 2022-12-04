@@ -1,7 +1,8 @@
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Game } from 'shared/game';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -10,21 +11,27 @@ import { GameService } from '../../services/game.service';
   styleUrls: ['./game-add.component.css'],
 })
 export class GameAddComponent implements OnInit {
-  constructor(private gameService: GameService, private formBuilder: FormBuilder,) {}
-
-  createForm = this.formBuilder.group({
-    name: '',
-    description: '',
-    price: '',
-    category: '',
-    image: '',
-    releaseDate: ''
-  });
+  form: FormGroup;
+  constructor(
+    private gameService: GameService,
+    private formBuilder: FormBuilder
+  ) {
+    const createForm = {
+      name: '',
+      description: '',
+      price: '',
+      category: '',
+      image: '',
+      releaseDate: '',
+    };
+    this.form = this.formBuilder.group(createForm);
+  }
 
   onSubmit(): void {
-    console.log(this.createForm.value)
-
-    this.gameService.addGame(this.createForm.value);
+    const values: Partial<Game> = {
+      ...this.form.value,
+    };
+    this.gameService.addGame(values).subscribe();
   }
 
   ngOnInit(): void {}

@@ -2,7 +2,7 @@ import { Game } from '../../../../../shared/game';
 
 export const GAMES: Game[] = [
   {
-    _id: "",
+    _id: "638b5614b3273651992687d1",
     id: 1,
     name: 'God of war',
     price: 60,

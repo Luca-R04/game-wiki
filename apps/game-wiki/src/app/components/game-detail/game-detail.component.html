@@ -44,7 +44,7 @@
                   type="submit"
                   class="btn btn-success btn-lg"
                   name="submit"
-                  routerLink="/edit-game/{{game.id}}"
+                  routerLink="/edit-game/{{game._id}}"
                   >
                   Bewerken
                 </button>
@@ -54,7 +54,7 @@
                   type="submit"
                   class="btn btn-danger btn-lg"
                   name="submit"
-                  (click)="deleteGame(game)"
+                  (click)="deleteGame()"
                 >
                   Verwijderen
                 </button>
