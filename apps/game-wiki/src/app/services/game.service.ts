@@ -5,7 +5,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Game } from '../../../../../shared/game';
-import { GAMES } from '../models/mock-game';
 
 @Injectable({
   providedIn: 'root',

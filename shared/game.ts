@@ -1,3 +1,5 @@
+import { Actor } from "./actor";
+
 export interface Game {
   _id: string;
   id: number;
@@ -8,4 +10,5 @@ export interface Game {
   image: string;
   description: string;
   positivePercent: number;
+  actors: Array<Actor>;
 }

@@ -31,10 +31,11 @@
 
               <div class="pt-2">
                 <h6>Voice actors:</h6>
-                <ul class="list-unstyled pb-3">
-                  <li>- VA 1</li>
-                  <li>- VA 2</li>
-                  <li>- VA 3</li>
+                <ul *ngFor="let actor of game.actors" class="list-unstyled pb-3">
+                  <li>- {{actor.name}}</li>
+                  <li>&nbsp;- {{actor.birthDay | date: 'dd/MM/yyyy'}}</li>
+                  <li *ngIf="actor.isMale">&nbsp;- Male</li>
+                  <li *ngIf="actor.isMale === false">&nbsp;- Female</li>
                 </ul>
               </div>
             </div>

@@ -30,6 +30,8 @@
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.2",
     "bootstrap-icons": "^1.10.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
     "mongoose": "^6.7.5",
     "reflect-metadata": "^0.1.13",
     "run-s": "^0.0.0",

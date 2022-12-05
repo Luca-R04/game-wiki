@@ -24,8 +24,6 @@ export class GameEditComponent implements OnInit {
     this.gameId = String(this.route.snapshot.paramMap.get('id'));
 
     const editForm = {
-      _id: '',
-      id: '',
       name: '',
       description: '',
       price: '',
@@ -46,8 +44,6 @@ export class GameEditComponent implements OnInit {
   onSubmit(): void {
     const changes: Partial<Game> = {
       ...this.form.value,
-      _id: this.game?._id,
-      id: this.game?.id,
     };
     console.log(changes);
     this.gameService.editGame(changes, this.gameId).subscribe();

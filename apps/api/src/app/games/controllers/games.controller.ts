@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -16,8 +18,13 @@ export class GamesController {
   constructor(private gamesDB: GamesRepository) {}
 
   @Post()
-  async createGame(@Body() game: Partial<Game>): Promise<Game> {
+  async createGame(@Body() game: Game): Promise<Game> {
     console.log('creating game');
+
+    if (game._id) {
+      throw new BadRequestException("Can't set course id");
+    }
+
     return this.gamesDB.addGame(game);
   }
 
@@ -28,15 +35,25 @@ export class GamesController {
 
   @Get(':gameId')
   async findGame(@Param('gameId') gameId: string): Promise<Game> {
-    return this.gamesDB.findOne(gameId);
+    const game = await this.gamesDB.findOne(gameId);
+
+    if (!game) {
+      throw new NotFoundException('Could not find game with id ' + gameId);
+    }
+    return game;
   }
 
   @Put(':gameId')
   async updateGames(
     @Param('gameId') gameId: string,
-    @Body() changes: Partial<Game>
+    @Body() changes: Game
   ): Promise<Game> {
     console.log('updating game');
+
+    if (changes._id) {
+      throw new BadRequestException("Can't update course id");
+    }
+
     return this.gamesDB.updateGame(gameId, changes);
   }
 
