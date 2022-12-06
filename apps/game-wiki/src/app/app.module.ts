@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UsersComponent } from './components/users/users.component';
 import { AboutComponent } from './components/about/about.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
@@ -17,6 +17,7 @@ import { GameAddComponent } from './components/game-add/game-add.component';
 import { GameEditComponent } from './components/game-edit/game-edit.component';
 import { NavComponent } from './components/nav/nav.component';
 import { AuthModule } from './auth/auth.module';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,13 @@ import { AuthModule } from './auth/auth.module';
     AppRoutingModule,
     AuthModule.forRoot(),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
