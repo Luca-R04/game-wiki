@@ -22,7 +22,7 @@ export class GamesController {
     console.log('creating game');
 
     if (game._id) {
-      throw new BadRequestException("Can't set course id");
+      throw new BadRequestException("Can't set game id");
     }
 
     return this.gamesDB.addGame(game);

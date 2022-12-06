@@ -4,11 +4,12 @@ import { MONGO_CONNECTION } from '../constants';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 
 import { GamesModule } from './games/games.module';
 
 @Module({
-  imports: [GamesModule, MongooseModule.forRoot(MONGO_CONNECTION)],
+  imports: [GamesModule, AuthModule, MongooseModule.forRoot(MONGO_CONNECTION)],
   controllers: [AppController],
   providers: [AppService],
 })

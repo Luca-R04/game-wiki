@@ -8,9 +8,10 @@ import { GameDetailComponent } from './components/game-detail/game-detail.compon
 import { GameAddComponent } from './components/game-add/game-add.component';
 import { GameEditComponent } from './components/game-edit/game-edit.component';
 import { AddComponent } from './components/add/add.component';
+import { LoginComponent } from './auth/login/login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/games', pathMatch: 'full' },
+  { path: '', component: LoginComponent },
   { path: 'about', component: AboutComponent },
   { path: 'games', component: GamesComponent },
   { path: 'game/:id', component: GameDetailComponent },

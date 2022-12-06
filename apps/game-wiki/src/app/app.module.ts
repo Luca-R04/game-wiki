@@ -15,6 +15,8 @@ import { GameDetailComponent } from './components/game-detail/game-detail.compon
 import { AddComponent } from './components/add/add.component';
 import { GameAddComponent } from './components/game-add/game-add.component';
 import { GameEditComponent } from './components/game-edit/game-edit.component';
+import { NavComponent } from './components/nav/nav.component';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,7 @@ import { GameEditComponent } from './components/game-edit/game-edit.component';
     AddComponent,
     GameAddComponent,
     GameEditComponent,
+    NavComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +38,7 @@ import { GameEditComponent } from './components/game-edit/game-edit.component';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    AuthModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

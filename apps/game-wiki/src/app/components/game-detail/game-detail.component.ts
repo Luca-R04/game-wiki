@@ -31,7 +31,7 @@ export class GameDetailComponent implements OnInit {
 
   deleteGame() {
     this.gameService.deleteGame(this.gameId).subscribe();
-    const navigationDetails: string[] = ['/'];
+    const navigationDetails: string[] = ['/games'];
     this.router.navigate(navigationDetails);
   }
 

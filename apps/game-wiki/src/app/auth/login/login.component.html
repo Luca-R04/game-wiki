@@ -1,0 +1,55 @@
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem">
+          <div class="card-body p-5 text-center">
+            <div class="mb-md-2 mt-md-4 pb-5">
+              <h2 class="fw-bold mb-5 text-uppercase">Login</h2>
+              <form id="contactForm" [formGroup]="form" (ngSubmit)="login()">
+                <div class="form-floating mb-3">
+                  <input
+                    class="form-control"
+                    id="email"
+                    type="text"
+                    placeholder="Email"
+                    formControlName="email"
+                  />
+                  <label class="form-labels" for="email" style="color: black"
+                    >Email</label
+                  >
+                </div>
+
+                <div class="form-floating mb-3">
+                  <input
+                    class="form-control"
+                    id="password"
+                    type="password"
+                    placeholder="Wachtwoord"
+                    formControlName="password"
+                  />
+                  <label class="form-labels" for="password" style="color: black"
+                    >Wachtwoord</label
+                  >
+                </div>
+                <button
+                  class="btn btn-outline-light btn-lg px-5 mt-5"
+                  type="submit"
+                >
+                  Login
+                </button>
+              </form>
+            </div>
+
+            <div>
+              <p class="mb-0">
+                Don't have an account?
+                <a href="#!" class="text-white-50 fw-bold">Sign Up</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
