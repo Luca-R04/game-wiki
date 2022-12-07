@@ -31,8 +31,7 @@
         placeholder="Prijs"
         formControlName="price"
         [ngModel]="game.price"
-
-        />
+      />
       <label for="prijs">Prijs</label>
     </div>
     <div class="form-floating mb-3">
@@ -59,8 +58,54 @@
     </div>
     <div class="pb-3">
       <label for="name">Uitgavedatum:</label>
-      <input [ngModel]="game.releaseDate | date: 'yyyy-MM-dd'" type="date" id="releaseDate" formControlName="releaseDate" />
+      <input
+        [ngModel]="game.releaseDate | date: 'yyyy-MM-dd'"
+        type="date"
+        id="releaseDate"
+        formControlName="releaseDate"
+      />
     </div>
+
+    <div formArrayName="actors">
+      <i class="nav-icon bi bi-plus-circle-fill pe-3" (click)="addField()"></i>
+      <i class="nav-icon bi bi-dash-circle-fill" (click)="removeField()"></i>
+
+      <div *ngFor="let actor of actors.controls; let empIndex = index">
+        <div [formGroupName]="empIndex">
+          <h2>Acteur</h2>
+          <div class="form-floating mb-1">
+            <div class="form-floating py-2">
+              <input
+                class="form-control"
+                id="naam"
+                type="text"
+                placeholder="Naam"
+                formControlName="name"
+              />
+              <label class="form-labels" for="name">Naam</label>
+            </div>
+
+            <div class="form-floating py-2">
+              <select
+                class="form-select"
+                aria-label="Default select example"
+                formControlName="isMale"
+              >
+                <option value=false>Vrouw</option>
+                <option value=true>Man</option>
+              </select>
+              <label class="form-labels" for="name">Geslacht</label>
+            </div>
+
+            <div class="pb-3">
+              <label for="birthDay" class="px-2">GeboorteDatum:</label>
+              <input type="date" id="birthDay" formControlName="birthDay" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="d-grid">
       <button class="btn btn-primary btn-lg" id="submitButton">
         Aanpassen

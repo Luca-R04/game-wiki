@@ -18,6 +18,7 @@ import { GameEditComponent } from './components/game-edit/game-edit.component';
 import { NavComponent } from './components/nav/nav.component';
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-    }
+    },
+    DatePipe,
   ],
   bootstrap: [AppComponent],
 })

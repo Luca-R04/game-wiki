@@ -9,11 +9,14 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { Game } from '../../../../../../shared/game';
+import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { GamesRepository } from '../repositories/games.repository';
 
 @Controller('games')
+@UseGuards(AuthenticationGuard)
 export class GamesController {
   constructor(private gamesDB: GamesRepository) {}
 
