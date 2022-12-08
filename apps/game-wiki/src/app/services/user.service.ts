@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { User } from '../../../../../shared/user';
 import { USERS } from '../models/mock-users';
 
@@ -8,6 +9,8 @@ import { USERS } from '../models/mock-users';
   providedIn: 'root',
 })
 export class UserService {
+  constructor(private http: HttpClient) {}
+
   getUsers(): Observable<User[]> {
     const users = of(USERS);
     return users;
@@ -21,6 +24,4 @@ export class UserService {
     user.id = USERS[USERS.length - 1].id + 1;
     USERS.push(user);
   }
-
-  constructor() {}
 }

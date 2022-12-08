@@ -11,6 +11,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
+import { Review } from 'shared/review';
 import { Game } from '../../../../../../shared/game';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { GamesRepository } from '../repositories/games.repository';
@@ -18,7 +19,9 @@ import { GamesRepository } from '../repositories/games.repository';
 @Controller('games')
 @UseGuards(AuthenticationGuard)
 export class GamesController {
-  constructor(private gamesDB: GamesRepository) {}
+  constructor(
+    private gamesDB: GamesRepository,
+  ) {}
 
   @Post()
   async createGame(@Body() game: Game): Promise<Game> {
@@ -64,5 +67,14 @@ export class GamesController {
   async deleteGame(@Param('gameId') gameId: string) {
     console.log('deleting game');
     return this.gamesDB.deleteGame(gameId);
+  }
+
+  @Put('/review/:gameId')
+  async addReview(
+    @Param('gameId') gameId: string,
+    @Body() changes: Review,
+  ): Promise<Game> {
+    console.log('adding review');
+    return this.gamesDB.addReview(gameId, changes);
   }
 }

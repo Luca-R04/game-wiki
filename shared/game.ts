@@ -1,4 +1,5 @@
-import { Actor } from "./actor";
+import { Actor } from './actor';
+import { Review } from './review';
 
 export interface Game {
   _id: string;
@@ -11,4 +12,5 @@ export interface Game {
   description: string;
   positivePercent: number;
   actors: Array<Actor>;
+  reviews: Array<Review>;
 }

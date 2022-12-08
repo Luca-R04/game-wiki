@@ -57,8 +57,8 @@
     </div>
 
     <div formArrayName="actors">
-      <i class="nav-icon bi bi-plus-circle-fill pe-3" (click)="addField()"></i>
-      <i class="nav-icon bi bi-dash-circle-fill" (click)="removeField()"></i>
+      <i class="form-icon bi bi-plus-circle-fill pe-3" (click)="addField()"></i>
+      <i class="form-icon bi bi-dash-circle-fill" (click)="removeField()"></i>
 
       <div *ngFor="let actor of actors.controls; let empIndex = index">
         <div [formGroupName]="empIndex">

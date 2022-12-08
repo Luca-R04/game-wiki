@@ -1,7 +1,38 @@
 .details-container {
-    background-color: #333434 !important;
+  background-color: #333434 !important;
 }
 
 .card-img {
-    background-color: #333434;
+  background-color: #333434;
+}
+
+.review {
+  /* fallback for old browsers */
+  background: #6a11cb;
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(
+    to right,
+    rgb(37, 117, 252),
+    rgb(172, 17, 203)
+  );
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgb(37, 117, 252), rgb(172, 17, 203));
+}
+
+.review .positive {
+  font-size: 5rem;
+  color: rgb(0, 255, 0);
+}
+
+.review .negative {
+  font-size: 5rem;
+  color: rgb(255, 0, 0);
+}
+
+.review .icons {
+  font-size: 2rem;
+}
+
+.form-labels {
+  color: black;
 }

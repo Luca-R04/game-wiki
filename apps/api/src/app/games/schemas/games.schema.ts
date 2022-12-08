@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import { ActorsSchema } from './actors.schema';
+import { ReviewSchema } from './reviews.schema';
 
 export const GameSchema = new mongoose.Schema({
   id: Number,
@@ -29,4 +30,5 @@ export const GameSchema = new mongoose.Schema({
   },
   positivePercent: Number,
   actors: [ActorsSchema],
+  reviews: [ReviewSchema],
 });

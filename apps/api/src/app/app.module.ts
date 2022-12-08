@@ -9,14 +9,16 @@ import { GamesController } from './games/controllers/games.controller';
 
 import { GamesModule } from './games/games.module';
 import { GetUserMiddleware } from './middleware/get-user.middleware';
+import { UserController } from './users/controllers/users.controller';
+import { UserModule } from './users/users.module';
 
 @Module({
-  imports: [GamesModule, AuthModule, MongooseModule.forRoot(MONGO_CONNECTION)],
+  imports: [GamesModule, AuthModule, UserModule, MongooseModule.forRoot(MONGO_CONNECTION)],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
-    consumer.apply(GetUserMiddleware).forRoutes(GamesController);
+    consumer.apply(GetUserMiddleware).forRoutes(GamesController, UserController);
   }
 }

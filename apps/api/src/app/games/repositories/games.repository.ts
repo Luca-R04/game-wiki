@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Game } from 'shared/game';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { Review } from 'shared/review';
 
 @Injectable()
 export class GamesRepository {
@@ -10,7 +11,7 @@ export class GamesRepository {
   async addGame(game: Partial<Game>): Promise<Game> {
     const newGame = new this.gameModel(game);
     await newGame.save();
-    return newGame.toObject({versionKey: false});
+    return newGame.toObject({ versionKey: false });
   }
 
   async findAll(): Promise<Game[]> {
@@ -30,5 +31,13 @@ export class GamesRepository {
 
   async deleteGame(gameId: string) {
     return this.gameModel.deleteOne({ _id: gameId });
+  }
+
+  async addReview(gameId: string, review: Review) {
+    const game = await this.gameModel.findOne({ _id: gameId });
+    console.log(game);
+    game.reviews.push(review);
+    game.save();
+    return game.toObject({ versionKey: false });
   }
 }

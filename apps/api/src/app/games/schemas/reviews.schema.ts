@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-export const reviewSchema = new mongoose.Schema({
+export const ReviewSchema = new mongoose.Schema({
   message: {
     type: String,
     required: true,

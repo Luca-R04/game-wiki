@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Game } from '../../../../../shared/game';
 import { Router } from '@angular/router';
+import { User } from 'shared/user';
 
 @Injectable({
   providedIn: 'root',
@@ -33,5 +34,9 @@ export class GameService {
 
   getGame(gameId: string): Observable<Game> {
     return this.http.get<Game>(`/api/games/${gameId}`);
+  }
+
+  getUser(): Observable<User> {
+    return this.http.get<User>('/api/user');
   }
 }
