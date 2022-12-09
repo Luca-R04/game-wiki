@@ -62,8 +62,13 @@ export class GameDetailComponent implements OnInit {
     values.userId = this.user?._id;
     values.userName = this.user?.name;
     values.reviewDate = new Date();
+    values.gameId = this.game?._id;
+    values.gameName = this.game?.name;
     console.log(this.form.value);
-    this.reviewService.addReview(values, this.gameId).subscribe((game) => (this.game = game));
+    this.reviewService
+      .addReview(values, this.gameId)
+      .subscribe((game) => (this.game = game));
+    this.userService.addReview(values).subscribe();
   }
 
   addFriend(friendId: string): void {

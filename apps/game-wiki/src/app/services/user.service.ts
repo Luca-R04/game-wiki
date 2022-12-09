@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { User } from '../../../../../shared/user';
-import { JsonPipe } from '@angular/common';
 import { Game } from 'shared/game';
+import { Review } from 'shared/review';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +27,11 @@ export class UserService {
   addGame(game: Game) {
     console.log(game);
     return this.http.put(`/api/user/game`, game);
+  }
+
+  addReview(review: Partial<Review>) {
+    console.log(review);
+    return this.http.put<Review>(`/api/user/review`, review);
   }
 
   deleteUser(user: User): void {}

@@ -16,9 +16,11 @@
           <div class="details-container card">
             <div class="card-body">
               <h1 class="h2">{{ game.name }}</h1>
-              <p class="h4 pt-2">Adviesprijs: €{{ game.price }}</p>
+              <p class="h4 pt-2">
+                Adviesprijs: €{{ game.price | number: '1.2-2' }}
+              </p>
               <p class="pt-1">
-                Rating: {{ game.positivePercent }}% positief
+                Rating: {{ game.positivePercent | number: '1.2-2' }}% positief
               </p>
               <p class="pb-1">
                 Uitgavedatum: {{ game.releaseDate | date: 'dd/MM/yyyy' }}
@@ -30,7 +32,7 @@
               <h6>Categorie: {{ game.category }}</h6>
 
               <div class="pt-2">
-                <h6>Stem acteurs:</h6>
+                <h6>Acteurs:</h6>
                 <ul
                   *ngFor="let actor of game.actors"
                   class="list-unstyled pb-3"
@@ -67,7 +69,9 @@
           </div>
         </div>
 
-        <h2 class="row d-flex justify-content-center pb-1 pt-5">Beoordelingen:</h2>
+        <h2 class="row d-flex justify-content-center pb-1 pt-5">
+          Beoordelingen:
+        </h2>
         <div class="row d-flex justify-content-center pb-3">
           <div class="col-lg-4 mt-2">
             <div class="details-container card">
@@ -154,7 +158,10 @@
                           <p class="lead mb-2">
                             {{ review.reviewDate | date: 'dd/MM/yyyy' }}
                           </p>
-                          <i class="icons bi bi-person-add" (click)="addFriend(review.userId)"></i>
+                          <i
+                            class="icons bi bi-person-add"
+                            (click)="addFriend(review.userId)"
+                          ></i>
                         </div>
                       </div>
                     </div>

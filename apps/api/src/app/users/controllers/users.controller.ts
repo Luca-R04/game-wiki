@@ -5,6 +5,7 @@ import { User } from 'shared/user';
 import { UsersRepository } from '../repositories/users.repository';
 import * as jwt from 'jsonwebtoken';
 import { Game } from 'shared/game';
+import { Review } from 'shared/review';
 
 @Controller('user')
 export class UsersController {
@@ -38,5 +39,14 @@ export class UsersController {
   ): Promise<User> {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
     return this.userDB.addGame(user.email, game);
+  }
+
+  @Put('/review')
+  async addReview(
+    @Headers('authorization') authJwtToken,
+    @Body() review: Review,
+  ): Promise<User> {
+    const user = jwt.verify(authJwtToken, JWT_SECRET);
+    return this.userDB.addReview(user.email, review);
   }
 }

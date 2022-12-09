@@ -20,27 +20,28 @@
                   </button>
                 </div>
                 <div class="px-2">
-                <button
-                  type="button"
-                  class="btn btn-outline-dark px-2"
-                  data-mdb-ripple-color="dark"
-                  style="z-index: 1"
-                  (click)="logout()"
-                >
-                  Log uit
-                </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-dark px-2"
+                    data-mdb-ripple-color="dark"
+                    style="z-index: 1"
+                    (click)="logout()"
+                  >
+                    Log uit
+                  </button>
                 </div>
               </div>
             </div>
             <div class="card-body p-4">
               <div class="mb-5">
                 <p class="lead fw-normal mb-1">Vrienden:</p>
-                <table class="table table-hover">
+                <table class="table">
                   <thead>
                     <tr>
                       <th scope="col">NR.</th>
                       <th scope="col">Naam</th>
                       <th scope="col">GeboorteDatum</th>
+                      <th scope="col"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -51,6 +52,47 @@
                       <th scope="row">{{ i + 1 }}</th>
                       <td>{{ friend.name }}</td>
                       <td>{{ friend.birthday | date: 'dd/MM/yyyy' }}</td>
+                      <td>
+                        <i class="bi bi-trash3-fill"></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="mb-5">
+                <p class="lead fw-normal mb-0">Gemaakte reviews:</p>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">NR.</th>
+                      <th scope="col">Game</th>
+                      <th scope="col">Rating</th>
+                      <th scope="col">Beoordeeld op</th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="let review of user.reviews; let i = index"
+                      class="data-tr"
+                    >
+                      <th scope="row">{{ i + 1 }}</th>
+                      <td>{{ review.gameName }}</td>
+                      <td>
+                        <div *ngIf="review.isPositive">positief</div>
+                        <div *ngIf="!review.isPositive">negatief</div>
+                      </td>
+                      <td>{{ review.reviewDate | date: 'dd/MM/yyyy' }}</td>
+                      <td>
+                        <i
+                          class="bi bi-pencil-fill"
+                          routerLink="/edit-review/{{ review._id }}"
+                        ></i>
+                      </td>
+                      <td>
+                        <i class="bi bi-trash3-fill"></i>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -78,49 +120,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div
-                class="d-flex justify-content-between align-items-center mb-4"
-              >
-                <p class="lead fw-normal mb-0">Gemaakte reviews:</p>
-              </div>
-              <div *ngFor="let review of user.reviews">
-                <li class="list-unstyled">
-                  <div class="row d-flex justify-content-center pb-3">
-                    <div class="col-md-10">
-                      <div class="card review">
-                        <div class="card-body m-3">
-                          <div class="row">
-                            <div
-                              class="col-lg-4 d-flex justify-content-center align-items-center mb-4 mb-lg-0"
-                            >
-                              <i
-                                *ngIf="review.isPositive"
-                                class="positive bi bi-hand-thumbs-up"
-                              ></i>
-                              <i
-                                *ngIf="!review.isPositive"
-                                class="negative bi bi-hand-thumbs-down"
-                              ></i>
-                            </div>
-                            <div class="col-lg-8">
-                              <p class="mb-4">
-                                {{ review.message }}
-                              </p>
-                              <p class="fw-bold lead mb-2">
-                                <strong>{{ review.userName }}</strong>
-                              </p>
-                              <p class="lead mb-2">
-                                {{ review.reviewDate | date: 'dd/MM/yyyy' }}
-                              </p>
-                              <i class="icons bi bi-person-add"></i>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
               </div>
             </div>
           </div>

@@ -5,4 +5,6 @@ export interface Review {
   isPositive: boolean;
   userName: string;
   userId: string;
+  gameId: string;
+  gameName: string;
 }
