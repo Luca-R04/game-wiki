@@ -1,7 +1,8 @@
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../models/user';
+import { Router } from '@angular/router';
+import { User } from '../../../../../../shared/user';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -10,21 +11,21 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./users.component.css'],
 })
 export class UsersComponent implements OnInit {
-  users: User[] = [];
+  user: User | undefined;
 
-  selectedUser?: User;
+  constructor(private userService: UserService, private router: Router) {}
 
-  constructor(private userService: UserService) {}
-
-  onSelect(user: User): void {
-    this.selectedUser = user;
+  getUser(): void {
+    this.userService.getUsers().subscribe((user) => (this.user = user));
   }
-
-  getUsers(): void {
-    this.userService.getUsers().subscribe((users) => (this.users = users));
+  
+  logout() {
+    localStorage.removeItem("authJwtToken");
+    this.router.navigateByUrl('/');
   }
 
   ngOnInit(): void {
-    this.getUsers();
+    this.getUser();
   }
+
 }

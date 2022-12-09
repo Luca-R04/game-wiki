@@ -1,8 +1,11 @@
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Game } from 'shared/game';
 import { GameService } from '../../services/game.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'game-wiki-game-add',
@@ -10,21 +13,56 @@ import { GameService } from '../../services/game.service';
   styleUrls: ['./game-add.component.css'],
 })
 export class GameAddComponent implements OnInit {
-  constructor(private gameService: GameService, private formBuilder: FormBuilder,) {}
+  form: FormGroup;
 
-  createForm = this.formBuilder.group({
-    name: '',
-    description: '',
-    price: '',
-    category: '',
-    image: '',
-    releaseDate: ''
-  });
+  constructor(
+    private gameService: GameService,
+    private userService: UserService,
+    private formBuilder: FormBuilder,
+    private router: Router
+  ) {
+    this.form = this.formBuilder.group({
+      name: '',
+      description: '',
+      price: '',
+      category: '',
+      image: '',
+      releaseDate: '',
+      actors: this.formBuilder.array([this.newActor()]),
+    });
+  }
+
+  get actors() {
+    return this.form.get('actors') as FormArray;
+  }
+
+  newActor(): FormGroup {
+    return this.formBuilder.group({
+      name: '',
+      isMale: '',
+      birthDay: '',
+    });
+  }
 
   onSubmit(): void {
-    console.log(this.createForm.value)
+    const values: Partial<Game> = {
+      ...this.form.value,
+    };
+    console.log(this.form.value);
+    this.gameService
+      .addGame(values)
+      .subscribe((game) => this.userService.addGame(game).subscribe());
+    this.router.navigateByUrl('/games');
+  }
 
-    this.gameService.addGame(this.createForm.value);
+  addField() {
+    this.actors.push(this.newActor());
+  }
+
+  removeField() {
+    if (!(this.actors.length === 1)) {
+      this.actors.removeAt(this.actors.length - 1);
+    }
   }
 
   ngOnInit(): void {}

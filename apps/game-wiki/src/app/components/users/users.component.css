@@ -1,15 +1,22 @@
-.data-tr:active {
-  background-color: lightskyblue;
-}
-
-.data-tr.selected {
-  background-color: lightskyblue;
-}
-
-.data-tr:active {
-  background-color: lightskyblue;
-}
-
 .table {
   color: white;
+}
+
+.profile-card {
+  background-color: #333434;
+}
+
+.game-card {
+  background-color: #4e4f4f;
+  height: 400px;
+}
+
+.bi-pencil-fill {
+  color: orange;
+  font-size: 1.5rem;
+}
+
+.bi-trash3-fill {
+  color: rgb(255, 0, 0);
+  font-size: 1.5rem;
 }

@@ -1,7 +1,7 @@
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit, Input } from '@angular/core';
-import { User } from '../../models/user';
+import { User } from '../../../../../../shared/user';
 import { UserService } from '../../services/user.service';
 
 

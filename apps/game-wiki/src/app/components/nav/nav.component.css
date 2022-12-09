@@ -1,0 +1,48 @@
+.navbar {
+  position: relative;
+  /* fallback for old browsers */
+  background: #6a11cb;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(
+    to right,
+    rgb(37, 117, 252),
+    rgb(172, 17, 203)
+  );
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(
+    to right,
+    rgb(37, 117, 252),
+    rgb(172, 17, 203)
+  );
+}
+
+.navbar .btn {
+  background-color: orange;
+  transition: 0.2s ease-in-out 0s;
+}
+
+.navbar .btn:hover {
+  background-color: orange;
+  transform: scale(1.25);
+}
+
+.nav-icon {
+  font-size: 1.5rem;
+}
+
+.nav-link:hover {
+  transition: 0.2s ease-in-out 0s;
+  transform: scale(1.3);
+}
+
+@media (max-width: 979px) {
+  body {
+    padding-top: 0px;
+  }
+}
+
+.footer-text {
+  color: white;
+}
