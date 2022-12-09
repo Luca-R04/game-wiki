@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../../app-routing.module';
+import { DatePipe } from '@angular/common';
 
 describe('GameEditComponent', () => {
   let component: GameEditComponent;
@@ -19,6 +20,7 @@ describe('GameEditComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         AppRoutingModule,
+        DatePipe
       ],
     }).compileComponents();
 

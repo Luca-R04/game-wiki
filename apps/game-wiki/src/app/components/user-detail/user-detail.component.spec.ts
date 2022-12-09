@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserDetailComponent } from './user-detail.component';
@@ -9,6 +10,7 @@ describe('UserDetailComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [UserDetailComponent],
+      imports: [HttpClient],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UserDetailComponent);
