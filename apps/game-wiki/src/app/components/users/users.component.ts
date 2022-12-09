@@ -23,7 +23,7 @@ export class UsersComponent implements OnInit {
     localStorage.removeItem("authJwtToken");
     this.router.navigateByUrl('/');
   }
-//
+
   ngOnInit(): void {
     this.getUser();
   }
