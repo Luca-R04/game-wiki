@@ -20,8 +20,8 @@ describe('GameEditComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         AppRoutingModule,
-        DatePipe
       ],
+      providers: [DatePipe],
     }).compileComponents();
 
     fixture = TestBed.createComponent(GameEditComponent);
