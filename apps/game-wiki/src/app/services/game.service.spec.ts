@@ -2,14 +2,14 @@ import { TestBed } from '@angular/core/testing';
 
 import { GameService } from './game.service';
 import { Game } from '../../../../../shared/game';
-import { HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('GameService', () => {
   let service: GameService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClient],
+      imports: [HttpClientModule],
     });
     service = TestBed.inject(GameService);
   });
