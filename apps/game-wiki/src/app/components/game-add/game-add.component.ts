@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Game } from 'shared/game';
 import { GameService } from '../../services/game.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'game-wiki-game-add',
@@ -16,6 +17,7 @@ export class GameAddComponent implements OnInit {
 
   constructor(
     private gameService: GameService,
+    private userService: UserService,
     private formBuilder: FormBuilder,
     private router: Router
   ) {
@@ -47,7 +49,9 @@ export class GameAddComponent implements OnInit {
       ...this.form.value,
     };
     console.log(this.form.value);
-    this.gameService.addGame(values).subscribe();
+    this.gameService
+      .addGame(values)
+      .subscribe((game) => this.userService.addGame(game).subscribe());
     this.router.navigateByUrl('/games');
   }
 

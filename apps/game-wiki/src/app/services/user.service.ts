@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { User } from '../../../../../shared/user';
-import { USERS } from '../models/mock-users';
+import { JsonPipe } from '@angular/common';
+import { Game } from 'shared/game';
 
 @Injectable({
   providedIn: 'root',
@@ -11,17 +12,24 @@ import { USERS } from '../models/mock-users';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<User[]> {
-    const users = of(USERS);
-    return users;
+  getUsers(): Observable<User> {
+    return this.http.get<User>('/api/user');
   }
 
-  deleteUser(user: User): void {
-    USERS.splice(USERS.indexOf(user), 1);
+  addFriend(friendId: string) {
+    console.log(friendId);
+    return this.http.put(
+      `/api/user/`,
+      JSON.parse(`{ "friendId": "${friendId}"}`)
+    );
   }
 
-  addUser(user: any): void {
-    user.id = USERS[USERS.length - 1].id + 1;
-    USERS.push(user);
+  addGame(game: Game) {
+    console.log(game);
+    return this.http.put(`/api/user/game`, game);
   }
+
+  deleteUser(user: User): void {}
+
+  addUser(user: any): void {}
 }

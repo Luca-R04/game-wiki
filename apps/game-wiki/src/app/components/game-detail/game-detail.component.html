@@ -154,7 +154,7 @@
                           <p class="lead mb-2">
                             {{ review.reviewDate | date: 'dd/MM/yyyy' }}
                           </p>
-                          <i class="icons bi bi-person-add"></i>
+                          <i class="icons bi bi-person-add" (click)="addFriend(review.userId)"></i>
                         </div>
                       </div>
                     </div>

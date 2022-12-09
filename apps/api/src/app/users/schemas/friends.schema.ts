@@ -1,16 +1,16 @@
 import * as mongoose from 'mongoose';
 
-export const UserSchema = new mongoose.Schema({
+export const FriendSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  birthDay: {
-    type: Date,
+  email: {
+    type: String,
     required: true,
   },
-  isMale: {
-    type: Boolean,
+  birthday: {
+    type: Date,
     required: true,
   },
 });

@@ -1,24 +1,131 @@
-<h2>Users</h2>
-
-<button class="btn btn-primary" type="button" (click)="logout()">Log uit</button>
-
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Naam</th>
-      <th scope="col">Email</th>
-      <th scope="col">Geboortedatum</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users" [class.selected]="user === selectedUser" (click)="onSelect(user)" class="data-tr">
-      <th scope="row">{{ user.id }}</th>
-      <td>{{ user.name }}</td>
-      <td>{{ user.email }}</td>
-      <td>{{ user.birthday | date:'dd/MM/yyyy'}}</td>
-    </tr>
-  </tbody>
-</table>
-
-<game-wiki-user-detail [user]="selectedUser"></game-wiki-user-detail>
+<div *ngIf="user">
+  <section class="h-100 gradient-custom-2">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-lg-9 col-xl-7">
+          <div class="card profile-card">
+            <div class="p-4 text-black" style="background-color: #f8f9fa">
+              <h5>{{ user.name }}</h5>
+              <p>{{ user.email }}</p>
+              <p>{{ user.birthday | date: 'dd/MM/yyyy' }}</p>
+              <div class="d-flex justify-content-end text-center py-1">
+                <div class="px-2">
+                  <button
+                    type="button"
+                    class="btn btn-outline-dark"
+                    data-mdb-ripple-color="dark"
+                    style="z-index: 1"
+                  >
+                    Aanpassen
+                  </button>
+                </div>
+                <div class="px-2">
+                <button
+                  type="button"
+                  class="btn btn-outline-dark px-2"
+                  data-mdb-ripple-color="dark"
+                  style="z-index: 1"
+                  (click)="logout()"
+                >
+                  Log uit
+                </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body p-4">
+              <div class="mb-5">
+                <p class="lead fw-normal mb-1">Vrienden:</p>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">NR.</th>
+                      <th scope="col">Naam</th>
+                      <th scope="col">GeboorteDatum</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="let friend of user.friends; let i = index"
+                      class="data-tr"
+                    >
+                      <th scope="row">{{ i + 1 }}</th>
+                      <td>{{ friend.name }}</td>
+                      <td>{{ friend.birthday | date: 'dd/MM/yyyy' }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="d-flex justify-content-between align-items-center mb-4"
+              >
+                <p class="lead fw-normal mb-0">Gemaakte games:</p>
+              </div>
+              <div
+                class="container d-flex align-items-center justify-content-center flex-wrap"
+              >
+                <div *ngFor="let game of user.games">
+                  <div class="game-container p-4">
+                    <div class="card game-card" style="width: 13rem">
+                      <img src="{{ game.image }}" class="card-img-top" />
+                      <div class="card-body">
+                        <h4>{{ game.name }}</h4>
+                        <i
+                          class="bi bi-pencil-fill pe-2"
+                          routerLink="/edit-game/{{ game._id }}"
+                        ></i>
+                        <i class="bi bi-trash3-fill ps-2"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex justify-content-between align-items-center mb-4"
+              >
+                <p class="lead fw-normal mb-0">Gemaakte reviews:</p>
+              </div>
+              <div *ngFor="let review of user.reviews">
+                <li class="list-unstyled">
+                  <div class="row d-flex justify-content-center pb-3">
+                    <div class="col-md-10">
+                      <div class="card review">
+                        <div class="card-body m-3">
+                          <div class="row">
+                            <div
+                              class="col-lg-4 d-flex justify-content-center align-items-center mb-4 mb-lg-0"
+                            >
+                              <i
+                                *ngIf="review.isPositive"
+                                class="positive bi bi-hand-thumbs-up"
+                              ></i>
+                              <i
+                                *ngIf="!review.isPositive"
+                                class="negative bi bi-hand-thumbs-down"
+                              ></i>
+                            </div>
+                            <div class="col-lg-8">
+                              <p class="mb-4">
+                                {{ review.message }}
+                              </p>
+                              <p class="fw-bold lead mb-2">
+                                <strong>{{ review.userName }}</strong>
+                              </p>
+                              <p class="lead mb-2">
+                                {{ review.reviewDate | date: 'dd/MM/yyyy' }}
+                              </p>
+                              <i class="icons bi bi-person-add"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

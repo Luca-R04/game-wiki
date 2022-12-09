@@ -26,6 +26,7 @@ export class GameDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private gameService: GameService,
+    private userService: UserService,
     private reviewService: ReviewService,
     private router: Router
   ) {
@@ -63,6 +64,10 @@ export class GameDetailComponent implements OnInit {
     values.reviewDate = new Date();
     console.log(this.form.value);
     this.reviewService.addReview(values, this.gameId).subscribe((game) => (this.game = game));
+  }
+
+  addFriend(friendId: string): void {
+    this.userService.addFriend(friendId).subscribe();
   }
 
   ngOnInit(): void {

@@ -12,10 +12,6 @@ export class ReviewService {
   constructor(private http: HttpClient) {}
 
   addReview(review: Partial<Review>, gameId: string): Observable<Game> {
-    const user = this.http.get<User>(`/api/user`).subscribe();
-    console.log(user)
-    // review.userId = user?._id;
-    // review.userName = user?.name;
     console.log(review);
     return this.http.put<Game>(`/api/games/review/${gameId}`, review);
   }

@@ -11,18 +11,12 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./users.component.css'],
 })
 export class UsersComponent implements OnInit {
-  users: User[] = [];
-
-  selectedUser?: User;
+  user: User | undefined;
 
   constructor(private userService: UserService, private router: Router) {}
 
-  onSelect(user: User): void {
-    this.selectedUser = user;
-  }
-
-  getUsers(): void {
-    this.userService.getUsers().subscribe((users) => (this.users = users));
+  getUser(): void {
+    this.userService.getUsers().subscribe((user) => (this.user = user));
   }
   
   logout() {
@@ -31,7 +25,7 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUsers();
+    this.getUser();
   }
 
 }
