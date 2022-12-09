@@ -18,14 +18,13 @@ export class UsersComponent implements OnInit {
   getUser(): void {
     this.userService.getUsers().subscribe((user) => (this.user = user));
   }
-  
+
   logout() {
-    localStorage.removeItem("authJwtToken");
+    localStorage.removeItem('authJwtToken');
     this.router.navigateByUrl('/');
   }
 
   ngOnInit(): void {
     this.getUser();
   }
-
 }
