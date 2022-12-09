@@ -1,26 +1,40 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { User } from '../models/user';
-import { USERS } from '../models/mock-users';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { User } from '../../../../../shared/user';
+import { Game } from 'shared/game';
+import { Review } from 'shared/review';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  getUsers(): Observable<User[]> {
-    const users = of(USERS);
-    return users;
+  constructor(private http: HttpClient) {}
+
+  getUsers(): Observable<User> {
+    return this.http.get<User>('/api/user');
   }
 
-  deleteUser(user: User): void {
-    USERS.splice(USERS.indexOf(user), 1);
+  addFriend(friendId: string) {
+    console.log(friendId);
+    return this.http.put(
+      `/api/user/`,
+      JSON.parse(`{ "friendId": "${friendId}"}`)
+    );
   }
 
-  addUser(user: any): void {
-    user.id = USERS[USERS.length - 1].id + 1;
-    USERS.push(user);
+  addGame(game: Game) {
+    console.log(game);
+    return this.http.put(`/api/user/game`, game);
   }
 
-  constructor() {}
+  addReview(review: Partial<Review>) {
+    console.log(review);
+    return this.http.put<Review>(`/api/user/review`, review);
+  }
+
+  deleteUser(user: User): void {}
+
+  addUser(user: any): void {}
 }

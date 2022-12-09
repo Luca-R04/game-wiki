@@ -7,18 +7,19 @@ import { GamesComponent } from './components/games/games.component';
 import { GameDetailComponent } from './components/game-detail/game-detail.component';
 import { GameAddComponent } from './components/game-add/game-add.component';
 import { GameEditComponent } from './components/game-edit/game-edit.component';
-import { AddComponent } from './components/add/add.component';
+import { LoginComponent } from './auth/login/login.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/games', pathMatch: 'full' },
-  { path: 'about', component: AboutComponent },
-  { path: 'games', component: GamesComponent },
-  { path: 'game/:id', component: GameDetailComponent },
-  { path: 'edit-game/:id', component: GameEditComponent },
-  { path: 'add-game', component: GameAddComponent },
-  { path: 'users', component: UsersComponent },
-  { path: 'add-user', component: UserAddComponent },
-  { path: 'add', component: AddComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'about', component: AboutComponent, canActivate: [AuthGuard] },
+  { path: 'games', component: GamesComponent, canActivate: [AuthGuard]  },
+  { path: 'game/:id', component: GameDetailComponent, canActivate: [AuthGuard]  },
+  { path: 'edit-game/:id', component: GameEditComponent, canActivate: [AuthGuard]  },
+  { path: 'add-game', component: GameAddComponent, canActivate: [AuthGuard]  },
+  { path: 'user', component: UsersComponent, canActivate: [AuthGuard]  },
+  { path: 'add-user', component: UserAddComponent, canActivate: [AuthGuard]  },
+  { path: 'add', component: GameAddComponent, canActivate: [AuthGuard]  },
 ];
 
 @NgModule({

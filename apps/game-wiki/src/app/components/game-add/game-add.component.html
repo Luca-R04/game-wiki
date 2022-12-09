@@ -1,5 +1,6 @@
 <div class="container px-5 my-5">
-  <form id="contactForm" [formGroup]="createForm" (ngSubmit)="onSubmit()">
+  <form id="contactForm" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h2>Game aanmaken</h2>
     <div class="form-floating mb-3">
       <input
         class="form-control"
@@ -53,11 +54,47 @@
     </div>
     <div class="pb-3">
       <label for="name">Uitgavedatum:</label>
-      <input
-        type="date"
-        id="releaseDate"
-        formControlName="releaseDate"
-      />
+      <input type="date" id="releaseDate" formControlName="releaseDate" />
+    </div>
+
+    <div formArrayName="actors">
+      <i class="form-icon bi bi-plus-circle-fill pe-3" (click)="addField()"></i>
+      <i class="form-icon bi bi-dash-circle-fill" (click)="removeField()"></i>
+
+      <div *ngFor="let actor of actors.controls; let empIndex = index">
+        <div [formGroupName]="empIndex">
+          <h2>Acteur</h2>
+          <div class="form-floating mb-1">
+            <div class="form-floating py-2">
+              <input
+                class="form-control"
+                id="naam"
+                type="text"
+                placeholder="Naam"
+                formControlName="name"
+              />
+              <label class="form-labels" for="name">Naam</label>
+            </div>
+
+            <div class="form-floating py-2">
+              <select
+                class="form-select"
+                aria-label="Default select example"
+                formControlName="isMale"
+              >
+                <option value="0">Vrouw</option>
+                <option value="1">Man</option>
+              </select>
+              <label class="form-labels" for="name">Geslacht</label>
+            </div>
+
+            <div class="pb-3">
+              <label for="birthDay" class="px-2">GeboorteDatum:</label>
+              <input type="date" id="birthDay" formControlName="birthDay" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="d-grid">
       <button class="btn btn-primary btn-lg" id="submitButton" type="submit">

@@ -1,38 +1,42 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { Game } from '../models/game';
-import { GAMES } from '../models/mock-game';
+import { map } from 'rxjs/operators';
+import { Game } from '../../../../../shared/game';
+import { Router } from '@angular/router';
+import { User } from 'shared/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
+  constructor(private http: HttpClient, private router: Router) {}
+
   getGames(): Observable<Game[]> {
-    const games = of(GAMES);
-    return games;
+    return this.http
+      .get<Game[]>('/api/games')
+      .pipe(map((games) => games.sort()));
   }
 
-  deleteGame(game: Game): void {
-    GAMES.splice(GAMES.indexOf(game), 1);
+  deleteGame(gameId: string) {
+    return this.http.delete<Game>(`/api/games/${gameId}`);
   }
 
-  editGame(game: any, id: number): void {
-    const oldGame = GAMES.find(g => g.id === id)!;
-    const index = GAMES.indexOf(oldGame);
-    GAMES[index] = game;
+  editGame(changes: Partial<Game>, gameId: string): Observable<Game> {
+    return this.http.put<Game>(`/api/games/${gameId}`, changes);
   }
 
-  addGame(game: any): void {
-    game.id = GAMES[GAMES.length - 1].id + 1;
-    GAMES.push(game);
+  addGame(game: Partial<Game>): Observable<Game> {
+    return this.http.post<Game>('/api/games', game);
   }
 
-  getGame(id: number): Observable<Game> {
-    const game = GAMES.find(g => g.id === id)!;
-    return of(game);
+  getGame(gameId: string): Observable<Game> {
+    return this.http.get<Game>(`/api/games/${gameId}`);
   }
 
-  constructor() {}
+  getUser(): Observable<User> {
+    return this.http.get<User>('/api/user');
+  }
 }

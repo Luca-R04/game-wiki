@@ -1,7 +1,7 @@
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit } from '@angular/core';
-import { Game } from '../../models/game';
+import { Game } from '../../../../../../shared/game';
 import { GameService } from '../../services/game.service';
 
 @Component({

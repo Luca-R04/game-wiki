@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @angular-eslint/no-empty-lifecycle-method */
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common';
 import { GameService } from '../../services/game.service';
-import { Game } from '../../models/game';
+import { Game } from '../../../../../../shared/game';
 
 @Component({
   selector: 'game-wiki-game-edit',
@@ -13,33 +14,77 @@ import { Game } from '../../models/game';
 })
 export class GameEditComponent implements OnInit {
   game: Game | undefined;
+  form: FormGroup;
+  gameId: string;
 
   constructor(
     private gameService: GameService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private datePipe: DatePipe,
   ) {
+    this.gameId = String(this.route.snapshot.paramMap.get('id'));
+
+    const editForm = {
+      name: '',
+      description: '',
+      price: '',
+      category: '',
+      image: '',
+      releaseDate: '',
+      actors: this.formBuilder.array([]),
+    };
+
+    this.form = this.formBuilder.group(editForm);
   }
 
-  editForm = this.formBuilder.group({
-    id: Number(this.route.snapshot.paramMap.get('id')),
-    name: '',
-    description: '',
-    price: '',
-    category: '',
-    image: '',
-    releaseDate: '',
-  });
+  get actors() {
+    return this.form.get('actors') as FormArray;
+  }
 
   getGame(): void {
-    const gameId = Number(this.route.snapshot.paramMap.get('id'));
-    this.gameService.getGame(gameId).subscribe((game) => (this.game = game));
+    this.gameService.getGame(this.gameId).subscribe((game) => {
+      this.game = game;
+      this.insertActors();
+    });
+  }
+
+  newActor(): FormGroup {
+    return this.formBuilder.group({
+      name: '',
+      isMale: '',
+      birthDay: '',
+    });
+  }
+
+  insertActors(): void {
+    this.game?.actors.forEach((element) => {
+      this.actors.push(
+        this.formBuilder.group({
+          name: element.name,
+          isMale: element.isMale,
+          birthDay: this.datePipe.transform(element.birthDay, 'yyyy-MM-dd'),
+        })
+      );
+    });
+  }
+
+  addField() {
+    this.actors.push(this.newActor());
+  }
+
+  removeField() {
+    if (!(this.actors.length === 1)) {
+      this.actors.removeAt(this.actors.length - 1);
+    }
   }
 
   onSubmit(): void {
-    console.log(this.editForm.value);
-    const gameId = Number(this.route.snapshot.paramMap.get('id'));
-    this.gameService.editGame(this.editForm.value, gameId);
+    const changes: Partial<Game> = {
+      ...this.form.value,
+    };
+    console.log(changes);
+    this.gameService.editGame(changes, this.gameId).subscribe();
   }
 
   ngOnInit(): void {
