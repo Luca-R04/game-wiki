@@ -15,7 +15,7 @@ export class GamesRepository {
   }
 
   async findAll(): Promise<Game[]> {
-    return this.gameModel.find();
+    return this.gameModel.find({}, { image: 1, name: 1, description: 1 });
   }
 
   async findOne(gameId: string): Promise<Game> {
