@@ -17,6 +17,18 @@ export class UsersRepository {
     return this.userModel.findOne({ _id: Id });
   }
 
+  updateUser(user: Partial<User>, updatedUser: Partial<User>): Promise<User> {
+    return this.userModel
+      .findOneAndUpdate({ email: user.email }, updatedUser, {
+        new: true,
+      })
+      .exec();
+  }
+
+  deleteUser(user: any) {
+    throw new Error('Method not implemented.');
+  }
+
   async addFriend(email: string, friend: User) {
     const user = await this.userModel.findOne({ email: email });
     user.friends.push(friend);

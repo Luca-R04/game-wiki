@@ -49,7 +49,6 @@ export class AuthController {
       if (error) throw new Error('Password hash failed.');
       user.password = hash;
     });
-
     return this.userDB.createUser(user);
   }
 }
