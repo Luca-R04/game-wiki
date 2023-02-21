@@ -45,10 +45,18 @@ export class AuthController {
       throw new BadRequestException("Can't set user id");
     }
 
-    password(user.password).hash(function (error, hash) {
-      if (error) throw new Error('Password hash failed.');
-      user.password = hash;
+    const hashedPassword = await new Promise<string>((resolve, reject) => {
+      password(user.password).hash((error, hash) => {
+        if (error) {
+          reject(new Error('Password hash failed.'));
+        } else {
+          resolve(hash);
+        }
+      });
     });
+  
+    user.password = hashedPassword;
+    
     return this.userDB.createUser(user);
   }
 }
