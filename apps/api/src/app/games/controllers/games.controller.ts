@@ -67,6 +67,7 @@ export class GamesController {
     return this.gamesDB.deleteGame(gameId);
   }
 
+  //Reviews
   @Put('/review/:gameId')
   async addReview(
     @Param('gameId') gameId: string,

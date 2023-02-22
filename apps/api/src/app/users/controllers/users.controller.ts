@@ -7,7 +7,6 @@ import {
   Get,
   Headers,
   Param,
-  Post,
   Put,
 } from '@nestjs/common';
 import { JWT_SECRET } from '../../../constants';
@@ -55,7 +54,7 @@ export class UsersController {
         }
       });
     });
-  
+
     updatedUser.password = hashedPassword;
 
     return this.userDB.updateUser(user, updatedUser);
@@ -68,6 +67,7 @@ export class UsersController {
     this.userDB.deleteUser(user);
   }
 
+  //Friends
   @Put()
   async addFriend(
     @Headers('authorization') authJwtToken,
@@ -78,6 +78,16 @@ export class UsersController {
     return this.userDB.addFriend(user.email, friend);
   }
 
+  @Delete('/friend/:friendId')
+  async removeFriend(
+    @Headers('authorization') authJwtToken,
+    @Param('friendId') friendId: string
+  ) {
+    const user = jwt.verify(authJwtToken, JWT_SECRET);
+    return this.userDB.removeFriend(user.email, friendId);
+  }
+
+  //Games
   @Put('/game')
   async addGame(
     @Headers('authorization') authJwtToken,
@@ -87,6 +97,26 @@ export class UsersController {
     return this.userDB.addGame(user.email, game);
   }
 
+  @Put('/game/:gameId')
+  async updateGame(
+    @Headers('authorization') authJwtToken,
+    @Param('gameId') gameId: string,
+    @Body() updatedGame: Partial<Game>
+  ): Promise<User> {
+    const user = jwt.verify(authJwtToken, JWT_SECRET);
+    return this.userDB.updateGame(user.email, gameId, updatedGame);
+  }
+
+  @Delete('/game/:gameId')
+  async removeGame(
+    @Headers('authorization') authJwtToken,
+    @Param('gameId') gameId: string
+  ): Promise<User> {
+    const user = jwt.verify(authJwtToken, JWT_SECRET);
+    return this.userDB.removeGame(user.email, gameId);
+  }
+
+  //Reviews
   @Put('/review')
   async addReview(
     @Headers('authorization') authJwtToken,
@@ -94,5 +124,24 @@ export class UsersController {
   ): Promise<User> {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
     return this.userDB.addReview(user.email, review);
+  }
+
+  @Put('/review/:reviewId')
+  async updateReview(
+    @Headers('authorization') authJwtToken,
+    @Param('reviewId') reviewId: string,
+    @Body() updatedReview: Review
+  ) : Promise<User> {
+    const user = jwt.verify(authJwtToken, JWT_SECRET);
+    return this.userDB.updateReview(user.email, reviewId, updatedReview);
+  }
+
+  @Delete('/review/:reviewId')
+  async removeReview(
+    @Headers('authorization') authJwtToken,
+    @Param('reviewId') reviewId: string
+  ): Promise<User> {
+    const user = jwt.verify(authJwtToken, JWT_SECRET);
+    return this.userDB.removeReview(user.email, reviewId);
   }
 }
