@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Game } from 'shared/game';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Review } from 'shared/review';
 
@@ -33,6 +33,7 @@ export class GamesRepository {
     return this.gameModel.deleteOne({ _id: gameId });
   }
 
+  //Reviews
   async addReview(gameId: string, review: Review) {
     const game = await this.gameModel.findOne({ _id: gameId });
     game.reviews.push(review);
@@ -47,5 +48,34 @@ export class GamesRepository {
     game.positivePercent = (positives / game.reviews.length) * 100;
     game.save();
     return game.toObject({ versionKey: false });
+  }
+
+  async updateReview(
+    gameId: string,
+    reviewId: string,
+    updatedReview: Review
+  ): Promise<Game> {
+    const game = await this.gameModel.findOneAndUpdate(
+      { _id: gameId, 'reviews._id': reviewId },
+      {
+        $set: {
+          'reviews.$.message': updatedReview.message,
+          'reviews.$.reviewDate': updatedReview.reviewDate,
+          'reviews.$.isPositive': updatedReview.isPositive,
+        },
+      },
+      { new: true }
+    );
+    return game;
+  }
+
+  async removeReview(gameId: string, reviewId: string): Promise<Game> {
+    const objectId = new mongoose.Types.ObjectId(gameId);
+    const user = await this.gameModel.findByIdAndUpdate(
+      { _id: objectId },
+      { $pull: { reviews: { _id: reviewId } } },
+      { new: true }
+    );
+    return user;
   }
 }

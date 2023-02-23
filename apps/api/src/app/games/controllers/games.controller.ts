@@ -73,7 +73,23 @@ export class GamesController {
     @Param('gameId') gameId: string,
     @Body() changes: Review
   ): Promise<Game> {
-    console.log('adding review');
     return this.gamesDB.addReview(gameId, changes);
+  }
+
+  @Put('/review/:gameId/:reviewId')
+  async updateReview(
+    @Param('reviewId') reviewId: string,
+    @Param('gameId') gameId: string,
+    @Body() updatedReview: Review
+  ): Promise<Game> {
+    return this.gamesDB.updateReview(gameId, reviewId, updatedReview);
+  }
+
+  @Delete('/review/:gameId/:reviewId')
+  async removeReview(
+    @Param('reviewId') reviewId: string,
+    @Param('gameId') gameId: string
+  ): Promise<Game> {
+    return this.gamesDB.removeReview(gameId, reviewId);
   }
 }
