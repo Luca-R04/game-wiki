@@ -11,6 +11,6 @@ export const GameSchema = new mongoose.Schema({
   },
   gameId: {
     type: String,
-    required: false,
+    required: true,
   },
 });

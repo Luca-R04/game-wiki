@@ -25,7 +25,7 @@ export class UsersRepository {
       .exec();
   }
 
-  deleteUser(user: any) {
+  deleteUser(user: string) {
     throw new Error('Method not implemented.');
   }
 
@@ -70,7 +70,12 @@ export class UsersRepository {
   ): Promise<User> {
     const user = await this.userModel.findOneAndUpdate(
       { email, 'games.gameId': gameId },
-      { $set: { 'games.$.name': updatedGame.name, 'games.$.image': updatedGame.image } },
+      {
+        $set: {
+          'games.$.name': updatedGame.name,
+          'games.$.image': updatedGame.image,
+        },
+      },
       { new: true }
     );
     return user;
@@ -98,17 +103,23 @@ export class UsersRepository {
     updatedReview: Review
   ): Promise<User> {
     const user = await this.userModel.findOneAndUpdate(
-      { email, 'reviews._id': reviewId },
-      { $set: { 'reviews.$': updatedReview } },
+      { email, 'reviews.reviewId': reviewId },
+      {
+        $set: {
+          'reviews.$.message': updatedReview.message,
+          'reviews.$.reviewDate': updatedReview.reviewDate,
+          'reviews.$.isPositive': updatedReview.isPositive,
+        },
+      },
       { new: true }
     );
     return user;
   }
 
-  async removeReview(email: any, reviewId: string): Promise<User> {
+  async removeReview(email: string, reviewId: string): Promise<User> {
     const user = await this.userModel.findOneAndUpdate(
       { email },
-      { $pull: { reviews: { _id: reviewId } } },
+      { $pull: { reviews: { reviewId: reviewId } } },
       { new: true }
     );
     return user;

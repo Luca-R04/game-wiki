@@ -12,7 +12,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { Review } from 'shared/review';
+import { Review } from '../../../../../../shared/review';
 import { Game } from '../../../../../../shared/game';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { UsersRepository } from '../../users/repositories/users.repository';
@@ -90,26 +90,44 @@ export class GamesController {
   //Reviews
   @Put('/review/:gameId')
   async addReview(
+    @Headers('authorization') authJwtToken,
     @Param('gameId') gameId: string,
-    @Body() changes: Review
+    @Body() review: Review
   ): Promise<Game> {
-    return this.gamesDB.addReview(gameId, changes);
+    const returnGame = await this.gamesDB.addReview(gameId, review);
+
+    const user = jwt.verify(authJwtToken, JWT_SECRET);
+    review.gameName = returnGame.name;
+    review.gameId = gameId;
+    review.reviewId =
+      returnGame.reviews[returnGame.reviews.length - 1]._id.toString();
+    await this.userDB.addReview(user.email, review);
+
+    return returnGame;
   }
 
   @Put('/review/:gameId/:reviewId')
   async updateReview(
+    @Headers('authorization') authJwtToken,
     @Param('reviewId') reviewId: string,
     @Param('gameId') gameId: string,
     @Body() updatedReview: Review
   ): Promise<Game> {
+    const user = jwt.verify(authJwtToken, JWT_SECRET);
+    await this.userDB.updateReview(user.email, reviewId, updatedReview);
+
     return this.gamesDB.updateReview(gameId, reviewId, updatedReview);
   }
 
   @Delete('/review/:gameId/:reviewId')
   async removeReview(
+    @Headers('authorization') authJwtToken,
     @Param('reviewId') reviewId: string,
     @Param('gameId') gameId: string
   ): Promise<Game> {
+    const user = jwt.verify(authJwtToken, JWT_SECRET);
+    await this.userDB.removeReview(user.email, reviewId);
+
     return this.gamesDB.removeReview(gameId, reviewId);
   }
 }
