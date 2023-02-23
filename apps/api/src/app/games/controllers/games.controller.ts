@@ -6,6 +6,7 @@ import {
   Delete,
   Get,
   NotFoundException,
+  Headers,
   Param,
   Post,
   Put,
@@ -14,22 +15,35 @@ import {
 import { Review } from 'shared/review';
 import { Game } from '../../../../../../shared/game';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
+import { UsersRepository } from '../../users/repositories/users.repository';
 import { GamesRepository } from '../repositories/games.repository';
+import * as jwt from 'jsonwebtoken';
+import { JWT_SECRET } from '../../../constants';
 
 @Controller('games')
 @UseGuards(AuthenticationGuard)
 export class GamesController {
-  constructor(private gamesDB: GamesRepository) {}
+  constructor(
+    private gamesDB: GamesRepository,
+    private userDB: UsersRepository
+  ) {}
 
   @Post()
-  async createGame(@Body() game: Game): Promise<Game> {
-    console.log('creating game');
-
+  async createGame(
+    @Headers('authorization') authJwtToken,
+    @Body() game: Game
+  ): Promise<Game> {
     if (game._id) {
       throw new BadRequestException("Can't set game id");
     }
 
-    return this.gamesDB.addGame(game);
+    const returnGame = this.gamesDB.addGame(game);
+
+    const user = jwt.verify(authJwtToken, JWT_SECRET);
+    game.gameId = (await returnGame)._id.toString();
+    await this.userDB.addGame(user.email, game);
+
+    return returnGame;
   }
 
   @Get()
@@ -49,21 +63,27 @@ export class GamesController {
 
   @Put(':gameId')
   async updateGames(
+    @Headers('authorization') authJwtToken,
     @Param('gameId') gameId: string,
-    @Body() changes: Game
+    @Body() changes: Partial<Game>
   ): Promise<Game> {
-    console.log('updating game');
-
     if (changes._id) {
       throw new BadRequestException("Can't update course id");
     }
+
+    const user = jwt.verify(authJwtToken, JWT_SECRET);
+    await this.userDB.updateGame(user.email, gameId, changes);
 
     return this.gamesDB.updateGame(gameId, changes);
   }
 
   @Delete(':gameId')
-  async deleteGame(@Param('gameId') gameId: string) {
-    console.log('deleting game');
+  async deleteGame(
+    @Headers('authorization') authJwtToken,
+    @Param('gameId') gameId: string
+  ) {
+    const user = jwt.verify(authJwtToken, JWT_SECRET);
+    await this.userDB.removeGame(user.email, gameId);
     return this.gamesDB.deleteGame(gameId);
   }
 

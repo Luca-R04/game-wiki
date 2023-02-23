@@ -69,8 +69,8 @@ export class UsersRepository {
     updatedGame: Partial<Game>
   ): Promise<User> {
     const user = await this.userModel.findOneAndUpdate(
-      { email, 'games._id': gameId },
-      { $set: { 'games.$': updatedGame } },
+      { email, 'games.gameId': gameId },
+      { $set: { 'games.$.name': updatedGame.name, 'games.$.image': updatedGame.image } },
       { new: true }
     );
     return user;
@@ -79,7 +79,7 @@ export class UsersRepository {
   async removeGame(email: string, gameId: string): Promise<User> {
     const user = await this.userModel.findOneAndUpdate(
       { email },
-      { $pull: { games: { _id: gameId } } },
+      { $pull: { games: { gameId: gameId } } },
       { new: true }
     );
     return user;
