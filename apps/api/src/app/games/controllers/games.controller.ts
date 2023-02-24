@@ -14,6 +14,7 @@ import {
 } from '@nestjs/common';
 import { Review } from '../../../../../../shared/review';
 import { Game } from '../../../../../../shared/game';
+import { Actor } from '../../../../../../shared/actor';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { UsersRepository } from '../../users/repositories/users.repository';
 import { GamesRepository } from '../repositories/games.repository';
@@ -43,7 +44,7 @@ export class GamesController {
 
     game.gameId = (await returnGame)._id.toString();
     await this.userDB.addGame(user.email, game);
-    
+
     return returnGame;
   }
 
@@ -130,5 +131,31 @@ export class GamesController {
     await this.userDB.removeReview(user.email, reviewId);
 
     return this.gamesDB.removeReview(gameId, reviewId);
+  }
+
+  //Actors
+  @Put('/actor/:gameId')
+  async createActor(
+    @Param('gameId') gameId: string,
+    @Body() actor: Actor
+  ): Promise<Game> {
+    return this.gamesDB.createActor(gameId, actor);
+  }
+
+  @Put('/actor/:gameId/:actorId')
+  async updateActor(
+    @Param('gameId') gameId: string,
+    @Param('actorId') actorId: string,
+    @Body() actor: Partial<Actor>
+  ): Promise<Game> {
+    return this.gamesDB.updateActor(gameId, actorId, actor);
+  }
+
+  @Delete('/actor/:gameId/:actorId')
+  async deleteActor(
+    @Param('gameId') gameId: string,
+    @Param('actorId') actorId: string
+  ): Promise<Game> {
+    return this.gamesDB.deleteActor(gameId, actorId);
   }
 }

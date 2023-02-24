@@ -3,6 +3,7 @@ import { Game } from 'shared/game';
 import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Review } from 'shared/review';
+import { Actor } from 'shared/actor';
 
 @Injectable()
 export class GamesRepository {
@@ -78,6 +79,43 @@ export class GamesRepository {
     const user = await this.gameModel.findByIdAndUpdate(
       { _id: objectId },
       { $pull: { reviews: { _id: reviewId } } },
+      { new: true }
+    );
+    return user;
+  }
+
+  //Actors
+  async createActor(gameId: string, actor: Actor): Promise<Game> {
+    const game = await this.gameModel.findOne({ _id: gameId });
+    game.actors.push(actor);
+    game.save();
+    return game.toObject({ versionKey: false });
+  }
+
+  async updateActor(
+    gameId: string,
+    actorId: string,
+    actor: Partial<Actor>
+  ): Promise<Game> {
+    const game = await this.gameModel.findOneAndUpdate(
+      { _id: gameId, 'actors._id': actorId },
+      {
+        $set: {
+          'actors.$.name': actor.name,
+          'actors.$.birthDay': actor.birthDay,
+          'actors.$.isMale': actor.isMale,
+        },
+      },
+      { new: true }
+    );
+    return game;
+  }
+
+  async deleteActor(gameId: string, actorId: string): Promise<Game> {
+    const objectId = new mongoose.Types.ObjectId(gameId);
+    const user = await this.gameModel.findByIdAndUpdate(
+      { _id: objectId },
+      { $pull: { actors: { _id: actorId } } },
       { new: true }
     );
     return user;
