@@ -16,10 +16,14 @@ import * as jwt from 'jsonwebtoken';
 import * as password from 'password-hash-and-salt';
 import { Game } from 'shared/game';
 import { Review } from 'shared/review';
+import { GamesRepository } from '../../games/repositories/games.repository';
 
 @Controller('user')
 export class UsersController {
-  constructor(private userDB: UsersRepository) {}
+  constructor(
+    private userDB: UsersRepository,
+    private gameDB: GamesRepository
+  ) {}
 
   @Get()
   async findUser(@Headers('authorization') authJwtToken): Promise<User> {
@@ -63,8 +67,11 @@ export class UsersController {
   @Delete()
   async deleteUser(@Headers('authorization') authJwtToken) {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
-    console.log(user);
-    this.userDB.deleteUser(user);
+    const userId = (await this.userDB.findUser(user.email))._id;
+
+    await this.gameDB.deleteFromUser(userId.toString());
+
+    return this.userDB.deleteUser(userId);
   }
 
   //Friends
@@ -131,7 +138,7 @@ export class UsersController {
     @Headers('authorization') authJwtToken,
     @Param('reviewId') reviewId: string,
     @Body() updatedReview: Review
-  ) : Promise<User> {
+  ): Promise<User> {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
     return this.userDB.updateReview(user.email, reviewId, updatedReview);
   }

@@ -25,8 +25,8 @@ export class UsersRepository {
       .exec();
   }
 
-  deleteUser(user: string) {
-    throw new Error('Method not implemented.');
+  deleteUser(userId: string) {
+    return this.userModel.deleteOne({ _id: userId });
   }
 
   async addFriend(email: string, friend: User): Promise<User> {

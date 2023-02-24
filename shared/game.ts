@@ -12,6 +12,7 @@ export interface Game {
   description: string;
   positivePercent: number;
   gameId: string;
+  userId: string;
   actors: Array<Actor>;
   reviews: Array<Review>;
 }

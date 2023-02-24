@@ -28,6 +28,10 @@ export const GameSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  userId: {
+    type: String,
+    required: true,
+  },
   positivePercent: Number,
   actors: [ActorsSchema],
   reviews: [ReviewSchema],

@@ -36,13 +36,14 @@ export class GamesController {
     if (game._id) {
       throw new BadRequestException("Can't set game id");
     }
+    const user = jwt.verify(authJwtToken, JWT_SECRET);
+    game.userId = (await this.userDB.findUser(user.email))._id.toString();
 
     const returnGame = this.gamesDB.addGame(game);
 
-    const user = jwt.verify(authJwtToken, JWT_SECRET);
     game.gameId = (await returnGame)._id.toString();
     await this.userDB.addGame(user.email, game);
-
+    
     return returnGame;
   }
 

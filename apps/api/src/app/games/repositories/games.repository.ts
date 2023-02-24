@@ -33,6 +33,10 @@ export class GamesRepository {
     return this.gameModel.deleteOne({ _id: gameId });
   }
 
+  async deleteFromUser(userId: string) {
+    return this.gameModel.deleteMany({ userId });
+  }
+
   //Reviews
   async addReview(gameId: string, review: Review) {
     const game = await this.gameModel.findOne({ _id: gameId });
