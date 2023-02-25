@@ -84,7 +84,12 @@ export class UsersRepository {
   async removeGame(email: string, gameId: string): Promise<User> {
     const user = await this.userModel.findOneAndUpdate(
       { email },
-      { $pull: { games: { gameId: gameId } } },
+      {
+        $pull: {
+          games: { gameId: gameId },
+          reviews: { gameId: gameId },
+        },
+      },
       { new: true }
     );
     return user;
