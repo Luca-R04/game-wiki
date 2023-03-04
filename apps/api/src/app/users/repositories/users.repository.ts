@@ -54,7 +54,6 @@ export class UsersRepository {
         friendId: friendUser.id,
       }
     );
-    
 
     currentUser.friends.push(friend);
     await currentUser.save();
@@ -113,6 +112,20 @@ export class UsersRepository {
     const user = await this.userModel.findOne({ email: email });
     user.reviews.push(review);
     user.save();
+
+    await this.neoService.write(
+      `
+      MATCH (u:User {userId: $userId})
+      CREATE (u)-[:HAS_REVIEW]->(r:Review {reviewId: $reviewId, gameId: $gameId, isPositive: $isPositive})
+    `,
+      {
+        userId: user.id,
+        reviewId: review.reviewId,
+        gameId: review.gameId,
+        isPositive: review.isPositive,
+      }
+    );
+
     return user.toObject({ versionKey: false });
   }
 
