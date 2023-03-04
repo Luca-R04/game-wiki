@@ -4,10 +4,14 @@ import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Game } from 'shared/game';
 import { Review } from 'shared/review';
+import { Neo4jService } from 'nest-neo4j/dist';
 
 @Injectable()
 export class UsersRepository {
-  constructor(@InjectModel('User') private userModel: Model<User>) {}
+  constructor(
+    @InjectModel('User') private userModel: Model<User>,
+    private neoService: Neo4jService
+  ) {}
 
   async findUser(email: string): Promise<User> {
     return this.userModel.findOne({ email: email });
@@ -30,10 +34,11 @@ export class UsersRepository {
   }
 
   async addFriend(email: string, friend: User): Promise<User> {
-    const user = await this.userModel.findOne({ email: email });
+    const currentUser = await this.userModel.findOne({ email: email });
+    const friendUser = await this.userModel.findById({ _id: friend._id });
 
     // Check if the user already contains the friend by _id
-    const friendExists = user.friends.some((existingFriend) =>
+    const friendExists = currentUser.friends.some((existingFriend) =>
       new Types.ObjectId(existingFriend._id).equals(
         new Types.ObjectId(friend._id)
       )
@@ -42,9 +47,18 @@ export class UsersRepository {
       throw new Error('Friend already exists');
     }
 
-    user.friends.push(friend);
-    await user.save();
-    return user.toObject({ versionKey: false });
+    await this.neoService.write(
+      `MATCH (u:User {userId: $userId}), (fu:User {userId: $friendId}) CREATE (u)-[:FOLLOWS]->(fu)`,
+      {
+        userId: currentUser.id,
+        friendId: friendUser.id,
+      }
+    );
+    
+
+    currentUser.friends.push(friend);
+    await currentUser.save();
+    return currentUser.toObject({ versionKey: false });
   }
 
   async removeFriend(email: string, friendId: string): Promise<User> {
