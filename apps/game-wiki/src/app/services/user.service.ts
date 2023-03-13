@@ -29,11 +29,6 @@ export class UserService {
     return this.http.put(`/api/user/game`, game);
   }
 
-  addReview(review: Partial<Review>) {
-    console.log(review);
-    return this.http.put<Review>(`/api/user/review`, review);
-  }
-
   deleteUser(user: User): void {}
 
   addUser(user: any): void {}

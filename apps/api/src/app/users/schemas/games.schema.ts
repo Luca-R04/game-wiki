@@ -9,4 +9,9 @@ export const GameSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  gameId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Game',
+    required: true,
+  },
 });

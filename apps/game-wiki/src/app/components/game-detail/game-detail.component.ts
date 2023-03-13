@@ -68,7 +68,6 @@ export class GameDetailComponent implements OnInit {
     this.reviewService
       .addReview(values, this.gameId)
       .subscribe((game) => (this.game = game));
-    this.userService.addReview(values).subscribe();
   }
 
   addFriend(friendId: string): void {

@@ -7,4 +7,5 @@ export interface Review {
   userId: string;
   gameId: string;
   gameName: string;
+  reviewId: string;
 }
