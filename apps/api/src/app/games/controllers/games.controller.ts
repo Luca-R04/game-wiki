@@ -118,7 +118,8 @@ export class GamesController {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
     await this.userDB.updateReview(user.email, reviewId, updatedReview);
 
-    return this.gamesDB.updateReview(gameId, reviewId, updatedReview);
+    await this.gamesDB.updateReview(gameId, reviewId, updatedReview);
+    return this.gamesDB.updatePercentage(gameId);
   }
 
   @Delete('/review/:gameId/:reviewId')
@@ -130,7 +131,8 @@ export class GamesController {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
     await this.userDB.removeReview(user.email, reviewId);
 
-    return this.gamesDB.removeReview(gameId, reviewId);
+    await this.gamesDB.removeReview(gameId, reviewId);
+    return this.gamesDB.updatePercentage(gameId);
   }
 
   //Actors
