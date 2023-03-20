@@ -108,6 +108,28 @@ export class UsersRepository {
     return user;
   }
 
+  async getRecommended(userId: string): Promise<any> {
+    const result = await this.neoService.read(
+      `
+        MATCH (user1:User {userId: $userId})-[:FOLLOWS]->(user2:User)-[:HAS_REVIEW]->(review:Review)
+        WHERE review.isPositive = true
+        WITH user1, user2, review, rand() AS rand
+        ORDER BY rand
+        LIMIT 1
+        RETURN review, user2.username
+      `,
+      {
+        userId: userId,
+      }
+    );
+    const record = result.records[0];
+    return {
+      review: record.get("review").properties,
+      userName: record.get("user2.username")
+    };
+  }
+  
+
   async addReview(email: string, review: Review): Promise<User> {
     const user = await this.userModel.findOne({ email: email });
     user.reviews.push(review);

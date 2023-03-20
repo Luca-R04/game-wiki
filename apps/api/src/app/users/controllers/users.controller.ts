@@ -133,6 +133,14 @@ export class UsersController {
     return this.userDB.removeGame(user.email, gameId);
   }
 
+  @Get('/game/recommended')
+  @UseGuards(AuthenticationGuard)
+  async getRecommended(@Headers('authorization') authJwtToken): Promise<Game> {
+    const user = jwt.verify(authJwtToken, JWT_SECRET);
+    return this.userDB.getRecommended("638b5b1ab3273651992687dc"); 
+    
+  }
+
   //Reviews
   @Put('/review')
   @UseGuards(AuthenticationGuard)
