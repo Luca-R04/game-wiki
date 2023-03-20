@@ -85,6 +85,10 @@ export class GamesController {
     @Param('gameId') gameId: string
   ) {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
+    const game = await this.gamesDB.findOne(gameId);
+    game.reviews.forEach(review => {
+      this.userDB.removeReviewById(review.userId, review._id);
+    });
     await this.userDB.removeGame(user.email, gameId);
     return this.gamesDB.deleteGame(gameId);
   }
