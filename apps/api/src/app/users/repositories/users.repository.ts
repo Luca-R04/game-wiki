@@ -156,4 +156,13 @@ export class UsersRepository {
     );
     return user;
   }
+
+  async removeReviewById(userId: string, reviewId: string) {
+    const user = await this.userModel.findOneAndUpdate(
+      { _id: userId },
+      { $pull: { reviews: { reviewId: reviewId } } },
+      { new: true }
+    );
+    return user;
+  }
 }

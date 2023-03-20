@@ -64,7 +64,7 @@ export class GamesController {
   }
 
   @Put(':gameId')
-  async updateGames(
+  async updateGame(
     @Headers('authorization') authJwtToken,
     @Param('gameId') gameId: string,
     @Body() changes: Partial<Game>
@@ -85,6 +85,10 @@ export class GamesController {
     @Param('gameId') gameId: string
   ) {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
+    const game = await this.gamesDB.findOne(gameId);
+    game.reviews.forEach(review => {
+      this.userDB.removeReviewById(review.userId, review._id);
+    });
     await this.userDB.removeGame(user.email, gameId);
     return this.gamesDB.deleteGame(gameId);
   }
@@ -118,7 +122,8 @@ export class GamesController {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
     await this.userDB.updateReview(user.email, reviewId, updatedReview);
 
-    return this.gamesDB.updateReview(gameId, reviewId, updatedReview);
+    await this.gamesDB.updateReview(gameId, reviewId, updatedReview);
+    return this.gamesDB.updatePercentage(gameId);
   }
 
   @Delete('/review/:gameId/:reviewId')
@@ -130,7 +135,8 @@ export class GamesController {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
     await this.userDB.removeReview(user.email, reviewId);
 
-    return this.gamesDB.removeReview(gameId, reviewId);
+    await this.gamesDB.removeReview(gameId, reviewId);
+    return this.gamesDB.updatePercentage(gameId);
   }
 
   //Actors

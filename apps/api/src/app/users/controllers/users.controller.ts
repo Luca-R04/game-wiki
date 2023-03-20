@@ -8,6 +8,7 @@ import {
   Headers,
   Param,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { JWT_SECRET } from '../../../constants';
 import { User } from 'shared/user';
@@ -17,6 +18,7 @@ import * as password from 'password-hash-and-salt';
 import { Game } from 'shared/game';
 import { Review } from 'shared/review';
 import { GamesRepository } from '../../games/repositories/games.repository';
+import { AuthenticationGuard } from '../../guards/authentication.guard';
 
 @Controller('user')
 export class UsersController {
@@ -26,6 +28,7 @@ export class UsersController {
   ) {}
 
   @Get()
+  @UseGuards(AuthenticationGuard)
   async findUser(@Headers('authorization') authJwtToken): Promise<User> {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
     return this.userDB.findUser(user.email);
@@ -37,6 +40,7 @@ export class UsersController {
   }
 
   @Put('/update')
+  @UseGuards(AuthenticationGuard)
   async updateUser(
     @Headers('authorization') authJwtToken,
     @Body() updatedUser: Partial<User>
@@ -65,6 +69,7 @@ export class UsersController {
   }
 
   @Delete()
+  @UseGuards(AuthenticationGuard)
   async deleteUser(@Headers('authorization') authJwtToken) {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
     const userId = (await this.userDB.findUser(user.email))._id;
@@ -76,6 +81,7 @@ export class UsersController {
 
   //Friends
   @Put()
+  @UseGuards(AuthenticationGuard)
   async addFriend(
     @Headers('authorization') authJwtToken,
     @Body('friendId') friendId: string
@@ -86,6 +92,7 @@ export class UsersController {
   }
 
   @Delete('/friend/:friendId')
+  @UseGuards(AuthenticationGuard)
   async removeFriend(
     @Headers('authorization') authJwtToken,
     @Param('friendId') friendId: string
@@ -96,6 +103,7 @@ export class UsersController {
 
   //Games
   @Put('/game')
+  @UseGuards(AuthenticationGuard)
   async addGame(
     @Headers('authorization') authJwtToken,
     @Body() game: Game
@@ -105,6 +113,7 @@ export class UsersController {
   }
 
   @Put('/game/:gameId')
+  @UseGuards(AuthenticationGuard)
   async updateGame(
     @Headers('authorization') authJwtToken,
     @Param('gameId') gameId: string,
@@ -115,6 +124,7 @@ export class UsersController {
   }
 
   @Delete('/game/:gameId')
+  @UseGuards(AuthenticationGuard)
   async removeGame(
     @Headers('authorization') authJwtToken,
     @Param('gameId') gameId: string
@@ -125,6 +135,7 @@ export class UsersController {
 
   //Reviews
   @Put('/review')
+  @UseGuards(AuthenticationGuard)
   async addReview(
     @Headers('authorization') authJwtToken,
     @Body() review: Review
@@ -134,6 +145,7 @@ export class UsersController {
   }
 
   @Put('/review/:reviewId')
+  @UseGuards(AuthenticationGuard)
   async updateReview(
     @Headers('authorization') authJwtToken,
     @Param('reviewId') reviewId: string,
@@ -144,6 +156,7 @@ export class UsersController {
   }
 
   @Delete('/review/:reviewId')
+  @UseGuards(AuthenticationGuard)
   async removeReview(
     @Headers('authorization') authJwtToken,
     @Param('reviewId') reviewId: string
