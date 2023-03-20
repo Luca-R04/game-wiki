@@ -64,7 +64,7 @@ export class GamesController {
   }
 
   @Put(':gameId')
-  async updateGames(
+  async updateGame(
     @Headers('authorization') authJwtToken,
     @Param('gameId') gameId: string,
     @Body() changes: Partial<Game>
