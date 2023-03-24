@@ -45,11 +45,13 @@ export class UsersRepository {
   async deleteUser(userId: string) {
     await this.neoService.write(
       `MATCH (u:User {userId: $userId})
-      OPTIONAL MATCH (u)-[rel]-()
-      DELETE rel, u
-      WITH u
       OPTIONAL MATCH (u)-[r:HAS_REVIEW]->(rev:Review)
-      DELETE r, rev`,
+      DELETE r, rev
+      WITH u
+      OPTIONAL MATCH (u)-[f:FOLLOWS]->(friend:User)
+      DELETE f
+      WITH u
+      DELETE u`,
       {
         userId: userId.toString(),
       }
