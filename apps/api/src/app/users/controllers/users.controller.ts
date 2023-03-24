@@ -136,9 +136,9 @@ export class UsersController {
   @Get('/game/recommended')
   @UseGuards(AuthenticationGuard)
   async getRecommended(@Headers('authorization') authJwtToken): Promise<Game> {
-    const user = jwt.verify(authJwtToken, JWT_SECRET);
-    return this.userDB.getRecommended("638b5b1ab3273651992687dc"); 
-    
+    const jwtUser = jwt.verify(authJwtToken, JWT_SECRET);
+    const user = await this.userDB.findUser(jwtUser.email);
+    return this.userDB.getRecommended(user._id); 
   }
 
   //Reviews
