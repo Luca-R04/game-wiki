@@ -39,6 +39,19 @@ export class GamesRepository {
   }
 
   //Reviews
+  async getReview(gameId: string, reviewId: string): Promise<Review> {
+    const game = await this.gameModel.findOne(
+      {
+        _id: gameId,
+        'reviews._id': reviewId,
+      },
+      {
+        'reviews.$': 1,
+      }
+    );
+    return game.reviews[0];
+  }
+
   async addReview(gameId: string, review: Review) {
     const game = await this.gameModel.findOne({ _id: gameId });
     game.reviews.push(review);

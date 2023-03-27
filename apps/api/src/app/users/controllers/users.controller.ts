@@ -8,6 +8,7 @@ import {
   Headers,
   Param,
   Put,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { JWT_SECRET } from '../../../constants';
@@ -101,7 +102,16 @@ export class UsersController {
     return this.userDB.removeFriend(user.email, friendId);
   }
 
-  //Games
+  //Get recommended game from friend
+  @Get('/game/recommended')
+  @UseGuards(AuthenticationGuard)
+  async getRecommended(@Headers('authorization') authJwtToken): Promise<Game> {
+    const jwtUser = jwt.verify(authJwtToken, JWT_SECRET);
+    const user = await this.userDB.findUser(jwtUser.email);
+    return this.userDB.getRecommended(user._id);
+  }
+
+  //Games, normally called from games controller
   @Put('/game')
   @UseGuards(AuthenticationGuard)
   async addGame(
@@ -133,15 +143,7 @@ export class UsersController {
     return this.userDB.removeGame(user.email, gameId);
   }
 
-  @Get('/game/recommended')
-  @UseGuards(AuthenticationGuard)
-  async getRecommended(@Headers('authorization') authJwtToken): Promise<Game> {
-    const jwtUser = jwt.verify(authJwtToken, JWT_SECRET);
-    const user = await this.userDB.findUser(jwtUser.email);
-    return this.userDB.getRecommended(user._id); 
-  }
-
-  //Reviews
+  //Reviews, normally called from games controller
   @Put('/review')
   @UseGuards(AuthenticationGuard)
   async addReview(
