@@ -8,7 +8,6 @@ import {
   Headers,
   Param,
   Put,
-  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { JWT_SECRET } from '../../../constants';
