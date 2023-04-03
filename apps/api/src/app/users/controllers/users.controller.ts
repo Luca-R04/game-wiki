@@ -7,14 +7,15 @@ import {
   Get,
   Headers,
   Param,
+  Post,
   Put,
   UseGuards,
 } from '@nestjs/common';
 import { JWT_SECRET } from '../../../constants';
-import { User } from 'shared/user';
 import { UsersRepository } from '../repositories/users.repository';
 import * as jwt from 'jsonwebtoken';
 import * as password from 'password-hash-and-salt';
+import { User } from 'shared/user';
 import { Game } from 'shared/game';
 import { Review } from 'shared/review';
 import { GamesRepository } from '../../games/repositories/games.repository';
@@ -26,6 +27,27 @@ export class UsersController {
     private userDB: UsersRepository,
     private gameDB: GamesRepository
   ) {}
+
+  @Post()
+  async register(@Body() user: User) {
+    if (user._id) {
+      throw new BadRequestException("Can't set user id");
+    }
+
+    const hashedPassword = await new Promise<string>((resolve, reject) => {
+      password(user.password).hash((error, hash) => {
+        if (error) {
+          reject(new Error('Password hash failed.'));
+        } else {
+          resolve(hash);
+        }
+      });
+    });
+
+    user.password = hashedPassword;
+
+    return this.userDB.createUser(user);
+  }
 
   @Get()
   @UseGuards(AuthenticationGuard)
@@ -104,7 +126,9 @@ export class UsersController {
   //Get recommended game from friend
   @Get('/game/recommended')
   @UseGuards(AuthenticationGuard)
-  async getRecommended(@Headers('authorization') authJwtToken): Promise<Game> {
+  async getRecommended(
+    @Headers('authorization') authJwtToken
+  ): Promise<Review> {
     const jwtUser = jwt.verify(authJwtToken, JWT_SECRET);
     const user = await this.userDB.findUser(jwtUser.email);
     return this.userDB.getRecommended(user._id);

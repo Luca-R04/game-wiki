@@ -13,6 +13,17 @@ export class UsersRepository {
     private neoService: Neo4jService
   ) {}
 
+  async createUser(user: User) {
+    const newUser = new this.userModel(user);
+    await newUser.save();
+
+    await this.neoService.write(
+      `CREATE (u:User {userId: "${newUser.id}", username: "${newUser.name}", email: "${newUser.email}"})`
+    );
+
+    return newUser.toObject({ versionKey: false });
+  }
+
   async findUser(email: string): Promise<User> {
     return this.userModel.findOne({ email: email });
   }
