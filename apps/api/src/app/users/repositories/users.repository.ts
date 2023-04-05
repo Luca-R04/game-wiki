@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User } from 'shared/user';
-import { Model, Types } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Game } from 'shared/game';
 import { Review } from 'shared/review';

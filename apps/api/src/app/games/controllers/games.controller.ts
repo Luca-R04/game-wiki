@@ -77,8 +77,6 @@ export class GamesController {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
     const verifyUser = await this.userDB.findUser(user.email);
     const verifyGame = await this.gamesDB.findOne(gameId);
-    console.log(verifyUser._id);
-    console.log(verifyGame.userId);
     if (verifyGame.userId.toString() !== verifyUser._id.toString()) {
       throw new UnauthorizedException('Can not update other users games');
     }

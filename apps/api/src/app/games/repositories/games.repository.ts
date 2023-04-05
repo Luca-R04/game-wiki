@@ -24,7 +24,6 @@ export class GamesRepository {
   }
 
   async updateGame(gameId: string, changes: Partial<Game>): Promise<Game> {
-    console.log(gameId, changes);
     return this.gameModel.findOneAndUpdate({ _id: gameId }, changes, {
       new: true,
     });

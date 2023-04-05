@@ -7,11 +7,12 @@ import { Neo4jModule } from 'nest-neo4j/dist';
 import { UsersRepository } from './users.repository';
 import { UserSchema } from '../schemas/users.schema';
 import { GamesRepository } from '../../games/repositories/games.repository';
-import { GameSchema } from '../schemas/games.schema';
+import { GameSchema } from '../../games/schemas/games.schema';
 import { User } from 'shared/user';
 
 describe('Users/Repository', () => {
   let repository: UsersRepository;
+  let gameRepository: GamesRepository;
   let mongod: MongoMemoryServer;
   let mongoc: MongoClient;
 
@@ -42,12 +43,14 @@ describe('Users/Repository', () => {
     }).compile();
 
     repository = app.get<UsersRepository>(UsersRepository);
+    gameRepository = app.get<GamesRepository>(GamesRepository);
 
     mongoc = new MongoClient(uri);
     await mongoc.connect();
   });
 
   beforeEach(async () => {
+    await mongoc.db('test').collection('games').deleteMany({});
     await mongoc.db('test').collection('users').deleteMany({});
   });
 
@@ -140,11 +143,97 @@ describe('Users/Repository', () => {
 
       await repository.addFriend(ThisUser.email, thisFriend);
 
-      const result = await repository.removeFriend(ThisUser.email, thisFriend._id);
+      const result = await repository.removeFriend(
+        ThisUser.email,
+        thisFriend._id
+      );
 
       expect(result).toBeDefined();
       expect(result).toHaveProperty('_id');
       expect(result.friends[0]).toBeUndefined();
+    });
+  });
+
+  describe('Users Games CRUD', () => {
+    const testUser: User = {
+      name: 'Luca Test',
+      email: 'Test@gmail.com',
+      password: 'password',
+      birthday: new Date('12-12-2004'),
+    };
+
+    const testUser2: User = {
+      name: 'Luca Test2',
+      email: 'Test2@gmail.com',
+      password: 'password',
+      birthday: new Date('12-12-2004'),
+    };
+
+    const testGame = {
+      name: 'Test Game',
+      price: 80,
+      category: 'Action',
+      releaseDate: new Date('12-12-2004'),
+      image: 'url',
+      description: 'test description',
+      positivePercent: 66,
+      userId: '',
+      actors: [],
+      reviews: [],
+    };
+
+    const updatedGame = {
+      name: 'Game Updated',
+      image: 'https://cdn.europosters.eu/image/750/julisteet/playstation-god-of-war-i116582.jpg',
+    };
+
+    it('should add a Game', async () => {
+      const ThisUser = await repository.createUser(testUser);
+      testGame.userId = ThisUser._id.toString();
+
+      const ThisGame = await gameRepository.addGame(testGame);
+      ThisGame.gameId = ThisGame._id.toString();
+
+      const result = await repository.addGame(ThisUser.email, ThisGame);
+
+      expect(result).toBeDefined();
+      expect(result).toHaveProperty('_id');
+      expect(result.games[0].name).toEqual('Test Game');
+    });
+
+    // it('should update a Game', async () => {
+    //   const ThisUser = await repository.createUser(testUser2);
+    //   testGame.userId = ThisUser._id.toString();
+
+    //   const ThisGame = await gameRepository.addGame(testGame);
+    //   ThisGame.gameId = ThisGame._id.toString();
+
+    //   await repository.addGame(ThisUser.email, ThisGame);
+    //   await repository.updateGame(ThisUser.email, ThisGame._id, updatedGame);
+
+    //   const newResult = await repository.findById(ThisUser._id.toString());
+    //   expect(newResult).toBeDefined();
+    //   expect(newResult.games[0].name).toEqual(updatedGame.name);
+    //   expect(newResult.games[0].image).toEqual(updatedGame.image);
+    // });
+
+    it('should remove a Game', async () => {
+      const ThisUser = await repository.createUser(testUser);
+      testGame.userId = ThisUser._id.toString();
+
+      const ThisGame = await gameRepository.addGame(testGame);
+      ThisGame.gameId = ThisGame._id.toString();
+
+      await repository.addGame(ThisUser.email, ThisGame);
+
+      const newResult = await repository.removeGame(
+        ThisUser.email,
+        ThisGame._id.toString()
+      );
+
+      expect(newResult).toBeDefined();
+      expect(newResult).toHaveProperty('_id');
+      expect(newResult.games[0]).toBeUndefined();
     });
   });
 });
