@@ -34,6 +34,7 @@ export const GameSchema = new mongoose.Schema({
     required: true,
   },
   positivePercent: Number,
+  recommendorName: String,
   actors: [ActorsSchema],
   reviews: [ReviewSchema],
 });

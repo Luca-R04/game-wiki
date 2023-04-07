@@ -24,7 +24,6 @@ export class GamesRepository {
   }
 
   async updateGame(gameId: string, changes: Partial<Game>): Promise<Game> {
-    console.log(gameId, changes);
     return this.gameModel.findOneAndUpdate({ _id: gameId }, changes, {
       new: true,
     });
@@ -39,6 +38,19 @@ export class GamesRepository {
   }
 
   //Reviews
+  async getReview(gameId: string, reviewId: string): Promise<Review> {
+    const game = await this.gameModel.findOne(
+      {
+        _id: gameId,
+        'reviews._id': reviewId,
+      },
+      {
+        'reviews.$': 1,
+      }
+    );
+    return game.reviews[0];
+  }
+
   async addReview(gameId: string, review: Review) {
     const game = await this.gameModel.findOne({ _id: gameId });
     game.reviews.push(review);
@@ -82,6 +94,19 @@ export class GamesRepository {
       { new: true }
     );
     return user;
+  }
+
+  async updatePercentage(gameId: string): Promise<Game> {
+    const game = await this.gameModel.findOne({ _id: gameId });
+    let positives = 0;
+    game.reviews.forEach((element) => {
+      if (element.isPositive) {
+        positives++;
+      }
+    });
+    game.positivePercent = (positives / game.reviews.length) * 100;
+    game.save();
+    return game.toObject({ versionKey: false });
   }
 
   //Actors

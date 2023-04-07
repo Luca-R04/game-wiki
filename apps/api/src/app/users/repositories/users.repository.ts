@@ -4,6 +4,7 @@ import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Game } from 'shared/game';
 import { Review } from 'shared/review';
+import { Recommendation } from 'shared/recommendation';
 import { Neo4jService } from 'nest-neo4j/dist';
 
 @Injectable()
@@ -13,6 +14,17 @@ export class UsersRepository {
     private neoService: Neo4jService
   ) {}
 
+  async createUser(user: User) {
+    const newUser = new this.userModel(user);
+    await newUser.save();
+
+    await this.neoService.write(
+      `CREATE (u:User {userId: "${newUser.id}", username: "${newUser.name}", email: "${newUser.email}"})`
+    );
+
+    return newUser.toObject({ versionKey: false });
+  }
+
   async findUser(email: string): Promise<User> {
     return this.userModel.findOne({ email: email });
   }
@@ -21,15 +33,41 @@ export class UsersRepository {
     return this.userModel.findOne({ _id: Id });
   }
 
-  updateUser(user: Partial<User>, updatedUser: Partial<User>): Promise<User> {
-    return this.userModel
+  async updateUser(
+    user: Partial<User>,
+    updatedUser: Partial<User>
+  ): Promise<User> {
+    const newUser = await this.userModel
       .findOneAndUpdate({ email: user.email }, updatedUser, {
         new: true,
       })
       .exec();
+
+    await this.neoService.write(
+      `MATCH (u:User {userId: $userId})
+        SET u.email = $email`,
+      {
+        userId: newUser.id,
+        email: updatedUser.email,
+      }
+    );
+    return newUser;
   }
 
-  deleteUser(userId: string) {
+  async deleteUser(userId: string) {
+    await this.neoService.write(
+      `MATCH (u:User {userId: $userId})
+      OPTIONAL MATCH (u)-[r:HAS_REVIEW]->(rev:Review)
+      DELETE r, rev
+      WITH u
+      OPTIONAL MATCH (u)-[f:FOLLOWS]->(friend:User)
+      DELETE f
+      WITH u
+      DELETE u`,
+      {
+        userId: userId.toString(),
+      }
+    );
     return this.userModel.deleteOne({ _id: userId });
   }
 
@@ -66,9 +104,19 @@ export class UsersRepository {
       { $pull: { friends: { _id: friendId } } },
       { new: true }
     );
+    await this.neoService.write(
+      `MATCH (u:User {userId: $userId})-[r:FOLLOWS]->(fu:User {userId: $friendId})
+      DELETE r
+      `,
+      {
+        userId: user.id,
+        friendId: friendId,
+      }
+    );
     return user;
   }
 
+  //Games
   async addGame(email: string, game: Game): Promise<User> {
     const user = await this.userModel.findOne({ email: email });
     user.games.push(game);
@@ -108,6 +156,28 @@ export class UsersRepository {
     return user;
   }
 
+  async getRecommended(userId: string): Promise<Recommendation> {
+    const result = await this.neoService.read(
+      `
+        MATCH (user1:User {userId: $userId})-[:FOLLOWS]->(user2:User)-[:HAS_REVIEW]->(review:Review)
+        WHERE review.isPositive = true
+        WITH user1, user2, review, rand() AS rand
+        ORDER BY rand
+        LIMIT 1
+        RETURN review, user2.username
+      `,
+      {
+        userId: userId.toString(),
+      }
+    );
+    const record = result.records[0];
+    return {
+      review: record.get('review').properties,
+      userName: record.get('user2.username'),
+    };
+  }
+
+  //Reviews
   async addReview(email: string, review: Review): Promise<User> {
     const user = await this.userModel.findOne({ email: email });
     user.reviews.push(review);
@@ -145,6 +215,15 @@ export class UsersRepository {
       },
       { new: true }
     );
+
+    await this.neoService.write(
+      `MATCH (r:Review {reviewId: $reviewId})
+        SET r.isPositive = $isPositive`,
+      {
+        reviewId: reviewId,
+        isPositive: updatedReview.isPositive,
+      }
+    );
     return user;
   }
 
@@ -153,6 +232,33 @@ export class UsersRepository {
       { email },
       { $pull: { reviews: { reviewId: reviewId } } },
       { new: true }
+    );
+    await this.neoService.write(
+      `MATCH (r:Review {reviewId: $reviewId})
+      OPTIONAL MATCH (r)-[rel]-()
+      DELETE rel, r
+      `,
+      {
+        reviewId: reviewId,
+      }
+    );
+    return user;
+  }
+
+  async removeReviewById(userId: string, reviewId: string) {
+    const user = await this.userModel.findOneAndUpdate(
+      { _id: userId },
+      { $pull: { reviews: { reviewId: reviewId } } },
+      { new: true }
+    );
+    await this.neoService.write(
+      `MATCH (r:Review {reviewId: $reviewId})
+      OPTIONAL MATCH (r)-[rel]-()
+      DELETE rel, r
+      `,
+      {
+        reviewId: reviewId,
+      }
     );
     return user;
   }
