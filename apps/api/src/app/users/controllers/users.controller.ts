@@ -128,10 +128,13 @@ export class UsersController {
   @UseGuards(AuthenticationGuard)
   async getRecommended(
     @Headers('authorization') authJwtToken
-  ): Promise<Review> {
+  ): Promise<Game> {
     const jwtUser = jwt.verify(authJwtToken, JWT_SECRET);
     const user = await this.userDB.findUser(jwtUser.email);
-    return this.userDB.getRecommended(user._id);
+    const recommendation = await this.userDB.getRecommended(user._id);
+    const game = await this.gameDB.findOne(recommendation.review.gameId);
+    game.recommendorName = recommendation.userName;
+    return game;
   }
 
   //Games, normally called from games controller

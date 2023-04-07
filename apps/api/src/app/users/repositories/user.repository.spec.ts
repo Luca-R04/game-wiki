@@ -162,13 +162,6 @@ describe('Users/Repository', () => {
       birthday: new Date('12-12-2004'),
     };
 
-    const testUser2: User = {
-      name: 'Luca Test2',
-      email: 'Test2@gmail.com',
-      password: 'password',
-      birthday: new Date('12-12-2004'),
-    };
-
     const testGame = {
       name: 'Test Game',
       price: 80,
@@ -180,11 +173,6 @@ describe('Users/Repository', () => {
       userId: '',
       actors: [],
       reviews: [],
-    };
-
-    const updatedGame = {
-      name: 'Game Updated',
-      image: 'https://cdn.europosters.eu/image/750/julisteet/playstation-god-of-war-i116582.jpg',
     };
 
     it('should add a Game', async () => {
@@ -200,22 +188,6 @@ describe('Users/Repository', () => {
       expect(result).toHaveProperty('_id');
       expect(result.games[0].name).toEqual('Test Game');
     });
-
-    // it('should update a Game', async () => {
-    //   const ThisUser = await repository.createUser(testUser2);
-    //   testGame.userId = ThisUser._id.toString();
-
-    //   const ThisGame = await gameRepository.addGame(testGame);
-    //   ThisGame.gameId = ThisGame._id.toString();
-
-    //   await repository.addGame(ThisUser.email, ThisGame);
-    //   await repository.updateGame(ThisUser.email, ThisGame._id, updatedGame);
-
-    //   const newResult = await repository.findById(ThisUser._id.toString());
-    //   expect(newResult).toBeDefined();
-    //   expect(newResult.games[0].name).toEqual(updatedGame.name);
-    //   expect(newResult.games[0].image).toEqual(updatedGame.image);
-    // });
 
     it('should remove a Game', async () => {
       const ThisUser = await repository.createUser(testUser);

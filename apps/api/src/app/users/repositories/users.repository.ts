@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { User } from 'shared/user';
-import mongoose, { Model, Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Game } from 'shared/game';
 import { Review } from 'shared/review';
+import { Recommendation } from 'shared/recommendation'
 import { Neo4jService } from 'nest-neo4j/dist';
 
 @Injectable()
@@ -155,7 +156,7 @@ export class UsersRepository {
     return user;
   }
 
-  async getRecommended(userId: string): Promise<any> {
+  async getRecommended(userId: string): Promise<Recommendation> {
     const result = await this.neoService.read(
       `
         MATCH (user1:User {userId: $userId})-[:FOLLOWS]->(user2:User)-[:HAS_REVIEW]->(review:Review)
