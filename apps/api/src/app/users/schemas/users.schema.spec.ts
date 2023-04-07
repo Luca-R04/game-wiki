@@ -7,7 +7,7 @@ import { Neo4jModule } from 'nest-neo4j/dist';
 import { UserSchema } from '../schemas/users.schema';
 import { User } from 'shared/user';
 
-describe('Users/Repository', () => {
+describe('Users/Schema', () => {
   let mongod: MongoMemoryServer;
   let mongoc: MongoClient;
   let userModel: Model<User>;
@@ -52,7 +52,7 @@ describe('Users/Repository', () => {
   });
 
   describe('User schema', () => {
-    const errorName = {
+    const errorObject = {
       object: 'test',
       testing: 'object',
     };
@@ -94,7 +94,7 @@ describe('Users/Repository', () => {
 
     it('should have a string for name', async () => {
       const testData = {
-        name: errorName,
+        name: errorObject,
         email: 'johndoe@example.com',
         password: 'password123',
         birthday: new Date('1990-01-01'),
@@ -136,7 +136,7 @@ describe('Users/Repository', () => {
     it('should have a string for email', async () => {
       const testData = {
         name: 'name',
-        email: errorName,
+        email: errorObject,
         password: 'password123',
         birthday: new Date('1990-01-01'),
         games: [],
@@ -178,7 +178,7 @@ describe('Users/Repository', () => {
       const testData = {
         name: 'name',
         email: 'johndoe@example.com',
-        password: errorName,
+        password: errorObject,
         birthday: new Date('1990-01-01'),
         games: [],
         friends: [],
@@ -215,7 +215,7 @@ describe('Users/Repository', () => {
       }
     });
 
-    it('should have a date for name', async () => {
+    it('should have a date for birthday', async () => {
       const testData = {
         name: 'name',
         email: 'johndoe@example.com',
