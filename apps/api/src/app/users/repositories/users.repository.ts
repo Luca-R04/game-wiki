@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Game } from 'shared/game';
 import { Review } from 'shared/review';
-import { Recommendation } from 'shared/recommendation'
+import { Recommendation } from 'shared/recommendation';
 import { Neo4jService } from 'nest-neo4j/dist';
 
 @Injectable()
@@ -250,6 +250,15 @@ export class UsersRepository {
       { _id: userId },
       { $pull: { reviews: { reviewId: reviewId } } },
       { new: true }
+    );
+    await this.neoService.write(
+      `MATCH (r:Review {reviewId: $reviewId})
+      OPTIONAL MATCH (r)-[rel]-()
+      DELETE rel, r
+      `,
+      {
+        reviewId: reviewId,
+      }
     );
     return user;
   }

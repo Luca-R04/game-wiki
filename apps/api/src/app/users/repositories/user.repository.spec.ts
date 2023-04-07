@@ -208,4 +208,85 @@ describe('Users/Repository', () => {
       expect(newResult.games[0]).toBeUndefined();
     });
   });
+
+  describe('Users Review CRUD', () => {
+    const testUser: User = {
+      name: 'Luca Test',
+      email: 'Test@gmail.com',
+      password: 'password',
+      birthday: new Date('12-12-2004'),
+    };
+
+    const testGame = {
+      name: 'Test Game',
+      price: 80,
+      category: 'Action',
+      releaseDate: new Date('12-12-2004'),
+      image: 'url',
+      description: 'test description',
+      positivePercent: 66,
+      userId: '',
+      actors: [],
+      reviews: [],
+    };
+
+    const testReview = {
+      _id: '6403591c74c74d9f14ad180d',
+      message: 'toppie',
+      reviewDate: new Date('12-12-2022'),
+      isPositive: true,
+      userName: 'Luca Test',
+      gameName: 'Test Game',
+      userId: '',
+      reviewId: '',
+      gameId: '',
+    };
+
+    it('should add a Review', async () => {
+      const ThisUser = await repository.createUser(testUser);
+      testGame.userId = ThisUser._id.toString();
+
+      const ThisGame = await gameRepository.addGame(testGame);
+      ThisGame.gameId = ThisGame._id.toString();
+      testReview.userId = ThisUser._id.toString();
+      testReview.gameId = ThisGame.gameId;
+      const thisReview = await gameRepository.addReview(
+        ThisGame.gameId,
+        testReview
+      );
+      testReview.reviewId = thisReview._id.toString();
+
+      const result = await repository.addReview(ThisUser.email, testReview);
+
+      expect(result).toBeDefined();
+      expect(result).toHaveProperty('_id');
+      expect(result.reviews[0].message).toEqual('toppie');
+    });
+
+    it('should remove a Review', async () => {
+      const ThisUser = await repository.createUser(testUser);
+      testGame.userId = ThisUser._id.toString();
+
+      const ThisGame = await gameRepository.addGame(testGame);
+      ThisGame.gameId = ThisGame._id.toString();
+      testReview.userId = ThisUser._id.toString();
+      testReview.gameId = ThisGame.gameId;
+      const thisReview = await gameRepository.addReview(
+        ThisGame.gameId,
+        testReview
+      );
+      testReview.reviewId = thisReview._id.toString();
+
+      const result = await repository.addReview(ThisUser.email, testReview);
+
+      const deleteResult = await repository.removeReview(
+        ThisUser.email,
+        result.reviews[0].reviewId
+      );
+
+      expect(deleteResult).toBeDefined();
+      expect(deleteResult).toHaveProperty('_id');
+      expect(deleteResult.reviews[0]).toBeUndefined();
+    });
+  });
 });
