@@ -94,11 +94,13 @@ export class UsersController {
   @UseGuards(AuthenticationGuard)
   async deleteUser(@Headers('authorization') authJwtToken) {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
-    const userId = (await this.userDB.findUser(user.email))._id;
-
-    await this.gameDB.deleteFromUser(userId.toString());
-
-    return this.userDB.deleteUser(userId);
+    try {
+      const userId = (await this.userDB.findUser(user.email))._id;
+      await this.gameDB.deleteFromUser(userId.toString());
+      return this.userDB.deleteUser(userId);
+    } catch (error) {
+      throw new BadRequestException('Could not find user to delete');
+    }
   }
 
   //Friends
