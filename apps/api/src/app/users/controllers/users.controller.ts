@@ -110,9 +110,19 @@ export class UsersController {
     @Headers('authorization') authJwtToken,
     @Body('friendId') friendId: string
   ): Promise<User> {
-    const user = jwt.verify(authJwtToken, JWT_SECRET);
-    const friend = await this.userDB.findById(friendId);
-    return this.userDB.addFriend(user.email, friend);
+    try {
+      const user = jwt.verify(authJwtToken, JWT_SECRET);
+      const friend = await this.userDB.findById(friendId);
+      return this.userDB.addFriend(user.email, friend);
+    } catch (error) {
+      if (error.message === 'Friend already exists') {
+        throw new BadRequestException(error.message);
+      } else {
+        throw new BadRequestException(
+          'Friend or authenticated user does not exist'
+        );
+      }
+    }
   }
 
   @Delete('/friend/:friendId')
