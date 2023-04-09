@@ -20,6 +20,7 @@ import { Game } from 'shared/game';
 import { Review } from 'shared/review';
 import { GamesRepository } from '../../games/repositories/games.repository';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
+import { Recommendation } from 'shared/recommendation';
 
 @Controller('user')
 export class UsersController {
@@ -94,11 +95,13 @@ export class UsersController {
   @UseGuards(AuthenticationGuard)
   async deleteUser(@Headers('authorization') authJwtToken) {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
-    const userId = (await this.userDB.findUser(user.email))._id;
-
-    await this.gameDB.deleteFromUser(userId.toString());
-
-    return this.userDB.deleteUser(userId);
+    try {
+      const userId = (await this.userDB.findUser(user.email))._id;
+      await this.gameDB.deleteFromUser(userId.toString());
+      return this.userDB.deleteUser(userId);
+    } catch (error) {
+      throw new BadRequestException('Could not find user to delete');
+    }
   }
 
   //Friends
@@ -108,9 +111,19 @@ export class UsersController {
     @Headers('authorization') authJwtToken,
     @Body('friendId') friendId: string
   ): Promise<User> {
-    const user = jwt.verify(authJwtToken, JWT_SECRET);
-    const friend = await this.userDB.findById(friendId);
-    return this.userDB.addFriend(user.email, friend);
+    try {
+      const user = jwt.verify(authJwtToken, JWT_SECRET);
+      const friend = await this.userDB.findById(friendId);
+      return this.userDB.addFriend(user.email, friend);
+    } catch (error) {
+      if (error.message === 'Friend already exists') {
+        throw new BadRequestException(error.message);
+      } else {
+        throw new BadRequestException(
+          'Friend or authenticated user does not exist'
+        );
+      }
+    }
   }
 
   @Delete('/friend/:friendId')
@@ -126,12 +139,17 @@ export class UsersController {
   //Get recommended game from friend
   @Get('/game/recommended')
   @UseGuards(AuthenticationGuard)
-  async getRecommended(
-    @Headers('authorization') authJwtToken
-  ): Promise<Game> {
+  async getRecommended(@Headers('authorization') authJwtToken): Promise<Game> {
     const jwtUser = jwt.verify(authJwtToken, JWT_SECRET);
     const user = await this.userDB.findUser(jwtUser.email);
-    const recommendation = await this.userDB.getRecommended(user._id);
+    let recommendation: Recommendation;
+
+    try {
+      recommendation = await this.userDB.getRecommended(user._id);
+    } catch (error) {
+      throw new BadRequestException('User does not have any friends');
+    }
+
     const game = await this.gameDB.findOne(recommendation.review.gameId);
     game.recommendorName = recommendation.userName;
     return game;
