@@ -105,7 +105,7 @@ describe('end-to-end tests of API', () => {
     await mongod.stop();
   });
 
-  describe('single user', () => {
+  describe('User basic usage', () => {
     let credentials;
     let friendCredentials;
 
@@ -295,6 +295,111 @@ describe('end-to-end tests of API', () => {
       expect(recommendation.status).toBe(200);
       expect(recommendation.body.name).toEqual('God of war');
       expect(recommendation.body.recommendorName).toEqual('John Friend');
+    });
+
+    it('a user registers, logs in, creates game, tries to edit other users game', async () => {
+      const register = await request(server)
+        .post('/auth-api/register')
+        .send(credentials);
+
+      expect(register.status).toBe(201);
+      expect(register.body).toHaveProperty('_id');
+
+      const login = await request(server)
+        .post('/auth-api/login')
+        .send(credentials);
+
+      expect(login.status).toBe(201);
+      expect(login.body).toHaveProperty('authJwtToken');
+
+      const token = login.body.authJwtToken;
+
+      const games = await request(server)
+        .get('/game-api/games')
+        .set('authorization', token);
+
+      expect(games.status).toBe(200);
+      expect(games.body).toEqual([]);
+
+      const game = {
+        name: 'God of war',
+        price: 60,
+        releaseDate: '2022-09-11T00:00:00.000Z',
+        image:
+          'https://cdn.europosters.eu/image/750/julisteet/playstation-god-of-war-i116582.jpg',
+        positivePercent: 90,
+        description:
+          "God of War is an action-adventure, hack and slash, mythology-based video game series, originally created by David Jaffe at Sony's Santa Monica Studio.",
+        category: 'Adventure',
+        actors: [
+          {
+            name: 'Christopher Judge',
+            birthDay: '1990-09-11',
+            isMale: true,
+          },
+          {
+            name: 'Jeremy Davies',
+            birthDay: '1990-09-11',
+            isMale: true,
+          },
+          {
+            name: 'Alastair Duncan',
+            birthDay: '1990-09-11',
+            isMale: true,
+          },
+        ],
+      };
+
+      const createGame = await request(server)
+        .post('/game-api/games')
+        .set('authorization', token)
+        .send(game);
+
+      expect(createGame.status).toBe(201);
+      expect(createGame.body).toHaveProperty('_id');
+      expect(createGame.body).toHaveProperty('reviews');
+      expect(createGame.body).toHaveProperty('userId');
+      expect(createGame.body.name).toEqual(game.name);
+      expect(createGame.body.price).toEqual(game.price);
+      expect(createGame.body.releaseDate).toEqual(game.releaseDate);
+      expect(createGame.body.image).toEqual(game.image);
+      expect(createGame.body.positivePercent).toEqual(game.positivePercent);
+      expect(createGame.body.description).toEqual(game.description);
+      expect(createGame.body.category).toEqual(game.category);
+      expect(createGame.body.actors[0].name).toEqual(game.actors[0].name);
+      expect(createGame.body.actors[1].name).toEqual(game.actors[1].name);
+      expect(createGame.body.actors[2].name).toEqual(game.actors[2].name);
+
+      const friendRegister = await request(server)
+        .post('/auth-api/register')
+        .send(friendCredentials);
+
+      expect(friendRegister.status).toBe(201);
+      expect(friendRegister.body).toHaveProperty('_id');
+
+      const friendLogin = await request(server)
+        .post('/auth-api/login')
+        .send(friendCredentials);
+
+      expect(friendLogin.status).toBe(201);
+      expect(friendLogin.body).toHaveProperty('authJwtToken');
+
+      const friendToken = friendLogin.body.authJwtToken;
+
+      const friendGames = await request(server)
+        .get('/game-api/games')
+        .set('authorization', friendToken);
+
+      expect(friendGames.status).toBe(200);
+      expect(friendGames.body).toHaveLength(1);
+
+      const editGame = await request(server)
+        .put(`/game-api/games/${friendGames.body[0]._id}`)
+        .set('authorization', friendToken)
+        .send(game);
+
+      expect(editGame.status).toBe(401);
+      expect(editGame.body.message).toEqual('Can not update other users games');
     });
   });
 });
