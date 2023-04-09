@@ -292,9 +292,9 @@ describe('end-to-end tests of API', () => {
         .get(`/user-api/user/game/recommended`)
         .set('authorization', token);
 
-      console.log(recommendation.body);
       expect(recommendation.status).toBe(200);
       expect(recommendation.body.name).toEqual('God of war');
+      expect(recommendation.body.recommendorName).toEqual('John Friend');
     });
   });
 });
