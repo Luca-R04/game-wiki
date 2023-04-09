@@ -182,6 +182,7 @@ export class UsersRepository {
     const user = await this.userModel.findOne({ email: email });
     user.reviews.push(review);
     user.save();
+    console.log(user);
 
     await this.neoService.write(
       `

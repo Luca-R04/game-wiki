@@ -20,6 +20,7 @@ import { Game } from 'shared/game';
 import { Review } from 'shared/review';
 import { GamesRepository } from '../../games/repositories/games.repository';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
+import { Recommendation } from 'shared/recommendation';
 
 @Controller('user')
 export class UsersController {
@@ -141,7 +142,14 @@ export class UsersController {
   async getRecommended(@Headers('authorization') authJwtToken): Promise<Game> {
     const jwtUser = jwt.verify(authJwtToken, JWT_SECRET);
     const user = await this.userDB.findUser(jwtUser.email);
-    const recommendation = await this.userDB.getRecommended(user._id);
+    let recommendation: Recommendation;
+
+    try {
+      recommendation = await this.userDB.getRecommended(user._id);
+    } catch (error) {
+      throw new BadRequestException('User does not have any friends');
+    }
+
     const game = await this.gameDB.findOne(recommendation.review.gameId);
     game.recommendorName = recommendation.userName;
     return game;

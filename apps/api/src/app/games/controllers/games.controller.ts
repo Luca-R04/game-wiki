@@ -121,8 +121,9 @@ export class GamesController {
     @Body() review: Review
   ): Promise<Game> {
     const returnGame = await this.gamesDB.addReview(gameId, review);
-
+    
     const user = jwt.verify(authJwtToken, JWT_SECRET);
+    console.log(user.email);
     review.gameName = returnGame.name;
     review.gameId = gameId;
     review.reviewId =

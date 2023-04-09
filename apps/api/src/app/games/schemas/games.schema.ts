@@ -3,7 +3,6 @@ import { ActorsSchema } from './actors.schema';
 import { ReviewSchema } from './reviews.schema';
 
 export const GameSchema = new mongoose.Schema({
-  id: Number,
   name: {
     type: String,
     required: true,
