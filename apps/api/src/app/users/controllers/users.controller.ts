@@ -114,10 +114,17 @@ export class UsersController {
     try {
       const user = jwt.verify(authJwtToken, JWT_SECRET);
       const friend = await this.userDB.findById(friendId);
+
+      if (user.email === friend.email) {
+        throw new BadRequestException('User can not befriend themselve');
+      }
+
       return this.userDB.addFriend(user.email, friend);
     } catch (error) {
       if (error.message === 'Friend already exists') {
         throw new BadRequestException(error.message);
+      } else if (error.message === 'User can not befriend themselve') {
+        throw new BadRequestException('User can not befriend themselve');
       } else {
         throw new BadRequestException(
           'Friend or authenticated user does not exist'
@@ -147,7 +154,9 @@ export class UsersController {
     try {
       recommendation = await this.userDB.getRecommended(user._id);
     } catch (error) {
-      throw new BadRequestException('User does not have any friends, or friends with positive reviews');
+      throw new BadRequestException(
+        'User does not have any friends, or friends with positive reviews'
+      );
     }
 
     const game = await this.gameDB.findOne(recommendation.review.gameId);
