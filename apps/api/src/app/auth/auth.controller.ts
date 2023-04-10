@@ -54,9 +54,9 @@ export class AuthController {
         }
       });
     });
-  
+
     user.password = hashedPassword;
-    
+
     return this.userDB.createUser(user);
   }
 }
