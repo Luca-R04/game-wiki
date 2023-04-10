@@ -99,12 +99,16 @@ export class GamesRepository {
   async updatePercentage(gameId: string): Promise<Game> {
     const game = await this.gameModel.findOne({ _id: gameId });
     let positives = 0;
-    game.reviews.forEach((element) => {
-      if (element.isPositive) {
-        positives++;
-      }
-    });
-    game.positivePercent = (positives / game.reviews.length) * 100;
+    if (game.reviews.length != 0) {
+      game.reviews.forEach((element) => {
+        if (element.isPositive) {
+          positives++;
+        }
+      });
+      game.positivePercent = (positives / game.reviews.length) * 100;
+    } else {
+      game.positivePercent = 0;
+    }
     game.save();
     return game.toObject({ versionKey: false });
   }
