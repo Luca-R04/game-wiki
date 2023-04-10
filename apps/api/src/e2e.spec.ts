@@ -276,7 +276,7 @@ describe('end-to-end tests of API', () => {
 
       expect(errorRecommendation.status).toBe(400);
       expect(errorRecommendation.body.message).toEqual(
-        'User does not have any friends'
+        'User does not have any friends, or friends with positive reviews'
       );
 
       const befriend = await request(server)

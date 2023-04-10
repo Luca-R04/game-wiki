@@ -142,7 +142,7 @@ export class GamesController {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
     const verifyUser = await this.userDB.findUser(user.email);
     const verifyReview = await this.gamesDB.getReview(gameId, reviewId);
-    if (verifyReview.userId !== verifyUser._id) {
+    if (verifyReview.userId.toString() !== verifyUser._id.toString()) {
       throw new UnauthorizedException('Can not update other users reviews');
     }
 
@@ -161,7 +161,7 @@ export class GamesController {
     const user = jwt.verify(authJwtToken, JWT_SECRET);
     const verifyUser = await this.userDB.findUser(user.email);
     const verifyReview = await this.gamesDB.getReview(gameId, reviewId);
-    if (verifyReview.userId !== verifyUser._id) {
+    if (verifyReview.userId.toString() !== verifyUser._id.toString()) {
       throw new UnauthorizedException('Can not delete other users reviews');
     }
 

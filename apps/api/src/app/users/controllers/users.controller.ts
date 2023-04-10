@@ -147,7 +147,7 @@ export class UsersController {
     try {
       recommendation = await this.userDB.getRecommended(user._id);
     } catch (error) {
-      throw new BadRequestException('User does not have any friends');
+      throw new BadRequestException('User does not have any friends, or friends with positive reviews');
     }
 
     const game = await this.gameDB.findOne(recommendation.review.gameId);
