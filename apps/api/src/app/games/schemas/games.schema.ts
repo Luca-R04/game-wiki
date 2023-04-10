@@ -32,7 +32,10 @@ export const GameSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  positivePercent: Number,
+  positivePercent: {
+    type: Number,
+    default: 0,
+  },
   recommendorName: String,
   actors: [ActorsSchema],
   reviews: [ReviewSchema],
